@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="border: 2px solid #000;">
+    <h1>This is the body</h1>
+    <p>Welcome to my personal site! I'm so glad you're here.</p>
+
+    {% comment %} <p>{{some_text}}</p>
+    <p>{{some_number}}</p>
+    <p>{{some_list}}</p> {% endcomment %}
+
+    {% for list_item in list_of_values %}
+        {% include 'personal\snippets\body_snippets.html' with Value=list_item %}
+    {% endfor %}
+
+
+    
+</div>
+{% endblock %}
