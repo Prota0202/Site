@@ -9,8 +9,12 @@
     <p>{{some_number}}</p>
     <p>{{some_list}}</p> {% endcomment %}
 
-    {% for question in questions %}
-        {% include 'personal\snippets\body_snippets.html' with value=question %}
+    {% for account in accounts %}
+        <p>{{ account.username }}</p>
+        <p>{{ account.email }}</p>
+        <p>{{ account.date_joined }}</p>
+        <p>Number of posts: {{ account.posts.count }}</p>
+        <hr>
     {% endfor %}
 
 
