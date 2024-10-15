@@ -5,39 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}This is the Title{% endblock %}</title>
 
+    {% if request.user.is_authenticated %}
+    <p><a href="{% url 'home' %}">Home</a> | <a href="{% url 'logout' %}">Logout</a></p>
+    <p>You are logged in as {{ request.user.username }}</p>
+    {% else %}
+    <p>
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'register' %}">Register</a>
+        <a href="{% url 'login' %}">Login</a>
+    </p>
+    {% endif %}
+    <hr>
+
 </head>
 
 <body>
-    <header>
-    {% if request.user.is_authenticated %}
-    <p>Welcome, {{ request.user.username }}</p> | <a href="{% url 'logout' %}">Logout</a>
-
-    {% else %}
-        <p><a href="{% url 'register' %}">Register</a> | <a href="#">Login</a></p>
-
-    {% endif %}
-
-    
-        <nav>
-            <ul>
-                <li><a href="{% url 'home' %}">Home</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <main>
-        {% block content %}
-        {% endblock content %}
-    </main>
-
-    <footer>
-        <hr>
-        <div style="background-color: #f0f0f0; padding: 10px;">
-            <p>My WebSite that has no name | 2024-2025</p>
-        </div>
-        <p>&copy;My Site</p>
-    </footer>
-
+    {% block content %}
+    {% endblock content %}
 </body>
+
+<footer>
+    <hr>
+    <div style="background-color: #f0f0f0; padding: 10px;">
+        <p>My WebSite that has no name | 2024-2025</p>
+    </div>
+    <p>&copy;My Site</p>
+</footer>
 
 </html>
