@@ -1,14 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div style="border: 2px solid #000;">
-    <h1>This is the body</h1>
-    <p>Welcome to my personal site! I'm so glad you're here.</p>
 
-    {% comment %} <p>{{some_text}}</p>
-    <p>{{some_number}}</p>
-    <p>{{some_list}}</p> {% endcomment %}
-
+    <h3>Registered users:</h3>
     {% for account in accounts %}
         <p>{{ account.username }}</p>
         <p>{{ account.email }}</p>

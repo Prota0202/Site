@@ -9,7 +9,15 @@
 
 <body>
     <header>
-        <h1>This is the header</h1>
+    {% if request.user.is_authenticated %}
+    <p>Welcome, {{ request.user.username }}</p> | <a href="{% url 'logout' %}">Logout</a>
+
+    {% else %}
+        <p><a href="{% url 'register' %}">Register</a> | <a href="#">Login</a></p>
+
+    {% endif %}
+
+    
         <nav>
             <ul>
                 <li><a href="{% url 'home' %}">Home</a></li>
@@ -23,8 +31,9 @@
     </main>
 
     <footer>
+        <hr>
         <div style="background-color: #f0f0f0; padding: 10px;">
-            <p>This is the footer</p>
+            <p>My WebSite that has no name | 2024-2025</p>
         </div>
         <p>&copy;My Site</p>
     </footer>
