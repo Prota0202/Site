@@ -2,37 +2,76 @@
 
 {% block content %}
 
-<!-- Add a container with a top margin to push content down -->
-<div style="margin-top: 100px;">
-    <h2>Login</h2>
-    <form method="post">
-        {% csrf_token %}
-        
-        {% for field in login_form %}
-            <p>
-                {{ field.label_tag }}
-                {{ field }}
-                
-                {% if field.help_text %}
-                    <small style="color: grey;">{{ field.help_text }}</small>
-                {% endif %}
-            </p>
-        {% endfor %}
-        
-        {% for field in login_form %}
-            {% for error in field.errors %}
-                <p style="color: red;">{{ error }}</p>
-            {% endfor %}
-        {% endfor %}
+<style type="text/css">
+    .divider:after,
+    .divider:before {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: #eee;
+    }
 
-        {% if login_form.non_field_errors %}
-            <div style="color: red;">
-                <p>{{ login_form.non_field_errors }}</p>
+    /* Adjust image to fit within its container without overlapping */
+    .login-image {
+        width: 100%;
+        max-width: 400px;
+    }
+
+    /* Container styles to ensure proper layout */
+    .vh-100 {
+        margin-top: 100px;
+    }
+</style>
+
+<section class="vh-100">
+    <div class="container py-5 h-100">
+        <div class="row d-flex align-items-center justify-content-center h-100">
+            <div class="col-md-12 text-center mb-4">
+                <h3>Log in</h3>
             </div>
-        {% endif %}
+            <div class="col-md-6 d-flex justify-content-center">
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg"
+                     class="img-fluid login-image" alt="Phone image">
+            </div>
+            <div class="col-md-5 col-lg-5 col-xl-4">
+                <form class ="form-signin" method="post">{% csrf_token %}
+                    <!-- Email input -->
+                    <div data-mdb-input-init class="form-outline mb-4">
+                        <label class="form-label" for="form1Example13">Email address</label>
+                        <input type="email" name="email" id="form1Example13" class="form-control form-control-lg" />
+                    </div>
 
-        <button type="submit">Log in</button>
-    </form>
-</div>
+                    <!-- Password input -->
+                    <div data-mdb-input-init class="form-outline mb-4">
+                        <label class="form-label" for="form1Example23">Password</label>
+                        <input type="password" name="password" id="form1Example23" class="form-control form-control-lg" />
+                    </div>
+
+                    <div class="d-flex justify-content-around align-items-center mb-4">
+                        <!-- Checkbox not for now-->
+                        <a href="#!">Forgot password?</a>
+                    </div>
+
+                {% for field in login_form %}
+                <p>
+                    {% for error in field.errors %}
+                        <p style="color: red;">{{ error }}</p>
+                    {% endfor %}
+                </p>
+                {% endfor %}
+        
+                {% if login_form.non_field_errors %}
+                    <div style="color: red;">
+                        <p>{{ login_form.non_field_errors }}</p>
+                    </div>
+                {% endif %}
+
+                    <!-- Submit button -->
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">Log in</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
 
 {% endblock content %}
