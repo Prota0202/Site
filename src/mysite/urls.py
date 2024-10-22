@@ -25,6 +25,7 @@ from account.views import (
     logout_view,
     login_view,
     account_view,
+    forgotPswd_view,
 
 
 )
@@ -38,5 +39,6 @@ urlpatterns = [
     path('logout/', logout_view, name='logout'),
     path('login/', login_view, name='login'),
     path('account/', account_view, name='account'),
+    path('forgotPswd/', forgotPswd_view, name='forgotPswd'),
     
 ]
