@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style type="text/css">
+    .divider:after,
+    .divider:before {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: #eee;
+    }
+
+    /* Adjust image to fit within its container without overlapping */
+    .login-image {
+        width: 100%;
+        max-width: 400px;
+    }
+
+    /* Container styles to ensure proper layout */
+    .vh-100 {
+        margin-top: 100px;
+    }
+
+    .product-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin: 20px;
+    }
+
+    .product-card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 16px;
+        margin: 10px;
+        text-align: center;
+        width: 200px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s;
+    }
+
+    .product-card:hover {
+        transform: scale(1.05);
+    }
+
+    .product-image {
+        max-width: 100%;
+        height: auto;
+        margin-bottom: 10px;
+    }
+
+    .product-title {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .product-price {
+        color: #28a745;
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+
+    .buy-button {
+        background-color: #343a40; /* Gris foncé */
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    .buy-button:hover {
+        background-color: #23272b; /* Couleur de survol plus foncée */
+    }
+
+    .search-bar {
+        display: flex;
+        justify-content: center;
+        margin: 20px 0;
+    }
+
+    .search-input {
+        padding: 10px;
+        width: 300px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin-right: 10px;
+    }
+
+    .search-button {
+        background-color: #343a40; /* Gris foncé */
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-left: -5px; /* Pour aligner avec la barre de recherche */
+    }
+
+    .search-button:hover {
+        background-color: #23272b; /* Couleur de survol plus foncée */
+    }
+
+    .filter-button {
+        background-color: #343a40; /* Gris foncé */
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-left: 10px;
+    }
+
+    .filter-button:hover {
+        background-color: #23272b; /* Couleur de survol plus foncée */
+    }
+
+    .filter-select {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin-left: 10px;
+    }
+</style>
+
+<div class="vh-100">
+    <h1 class="text-center">Boutique en ligne</h1>
+    
+    <!-- Barre de recherche et bouton de filtre -->
+    <div class="search-bar">
+        <input type="text" class="search-input" placeholder="Rechercher un produit...">
+        <button class="search-button">🔍</button> <!-- Icône de loupe -->
+        <select class="filter-select">
+            <option value="">Filtrer par</option>
+            <option value="promo">Promotions</option>
+            <option value="prix">Prix</option>
+        </select>
+        <button class="filter-button">Filtrer</button>
+    </div>
+    
+    <div class="product-container">
+        <div class="product-card">
+            <img src="https://www.cdiscount.com/pdt2/4/5/4/1/700x700/mp03089454/rw/casual-chaussure-homme-basket-homme-respirant-d.jpg" alt="Produit 1" class="product-image">
+            <div class="product-title">Produit 1</div>
+            <div class="product-price">€10,00</div>
+            <a href="#" class="buy-button">Acheter</a>
+        </div>
+        <div class="product-card">
+            <img src="https://www.cdiscount.com/pdt2/4/5/4/1/700x700/mp03089454/rw/casual-chaussure-homme-basket-homme-respirant-d.jpg" alt="Produit 2" class="product-image">
+            <div class="product-title">Produit 2</div>
+            <div class="product-price">€20,00</div>
+            <a href="#" class="buy-button">Acheter</a>
+        </div>
+        <div class="product-card">
+            <img src="https://www.cdiscount.com/pdt2/4/5/4/1/700x700/mp03089454/rw/casual-chaussure-homme-basket-homme-respirant-d.jpg" alt="Produit 3" class="product-image">
+            <div class="product-title">Produit 3</div>
+            <div class="product-price">€15,00</div>
+            <a href="#" class="buy-button">Acheter</a>
+        </div>
+        <div class="product-card">
+            <img src="https://www.cdiscount.com/pdt2/4/5/4/1/700x700/mp03089454/rw/casual-chaussure-homme-basket-homme-respirant-d.jpg" alt="Produit 4" class="product-image">
+            <div class="product-title">Produit 4</div>
+            <div class="product-price">€25,00</div>
+            <a href="#" class="buy-button">Acheter</a>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

@@ -44,6 +44,19 @@ def forgotPswd_view(request):
     return render(request, 'account/forgotPswd.html')  # Assurez-vous d'avoir ce template
 
 
+def shop_view(request):
+    # Si c'est une requête POST, traitez le formulaire ici
+    if request.method == 'POST':
+        # Logique pour traiter la demande de réinitialisation de mot de passe
+        # ...
+
+        # Rediriger vers une autre page après traitement, par exemple la page de confirmation
+        return redirect('login')  # ou toute autre page pertinente
+
+    # Si c'est une requête GET, afficher le formulaire de réinitialisation
+    return render(request, 'account/shop.html')  # Assurez-vous d'avoir ce template
+
+
 def login_view(request):
     context = {}
     

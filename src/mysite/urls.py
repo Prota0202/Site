@@ -26,6 +26,7 @@ from account.views import (
     login_view,
     account_view,
     forgotPswd_view,
+    shop_view,
 
 
 )
@@ -40,5 +41,6 @@ urlpatterns = [
     path('login/', login_view, name='login'),
     path('account/', account_view, name='account'),
     path('forgotPswd/', forgotPswd_view, name='forgotPswd'),
+    path('shop/', shop_view, name='shop'),
     
 ]
