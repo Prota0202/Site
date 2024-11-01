@@ -54,6 +54,11 @@ class User(MongoModel):
         return users[0] if users else None
 
     @classmethod
+    def get_users(cls):
+        users = cls.find()
+        return users if users else None
+
+    @classmethod
     def update_user(cls, user_id, new_data):
         query = {"_id": ObjectId(user_id)}
         return cls.update(query, new_data)
