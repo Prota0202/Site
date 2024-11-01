@@ -1,5 +1,8 @@
 from bson import ObjectId
 from .mongodb import get_db
+import random
+import string
+
 
 class MongoModel:
     collection_name = ''  # Spécifie le nom de la collection
@@ -46,6 +49,18 @@ class User(MongoModel):
             "password": password
         }
         return cls.insert(data)
+
+    @classmethod
+    def create_multiple_users(cls, count=100):
+        users = []
+        for i in range(1, count + 1):
+            username = f"user{i}"
+            password = f"password{i}"
+            users.append({"username": username, "password": password})
+
+        collection = cls.get_collection()
+        result = collection.insert_many(users)
+        return result.inserted_ids
 
     @classmethod
     def get_user(cls, user_id):

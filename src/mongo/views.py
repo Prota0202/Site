@@ -26,6 +26,20 @@ def create_user(request):
         return JsonResponse({'error': 'Données JSON invalides'}, status=400)
 
 
+@csrf_exempt
+@require_POST
+def create_multiple_users(request):
+    try:
+        user_ids = User.create_multiple_users(count=100)
+        return JsonResponse({
+            'message': '100 utilisateurs créés avec succès',
+            'user_ids': [str(user_id) for user_id in user_ids]
+        }, status=201)
+
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+
 @csrf_exempt  # Utilise cette ligne si tu testes en dehors des formulaires Django (par ex., Postman)
 @require_GET
 def get_user(request, user_id):
