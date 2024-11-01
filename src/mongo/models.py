@@ -18,10 +18,14 @@ class MongoModel:
         return collection.insert_one(data).inserted_id
 
     @classmethod
+    def insert_many(cls, data_list):
+        collection = cls.get_collection()
+        return collection.insert_many(data_list).inserted_ids
+
+    @classmethod
     def find(cls, query={}):
         collection = cls.get_collection()
         documents = collection.find(query)
-        # Convertir ObjectId en chaîne pour chaque document
         result = []
         for doc in documents:
             doc['_id'] = str(doc['_id'])  # Conversion de ObjectId en str
@@ -81,4 +85,48 @@ class User(MongoModel):
     @classmethod
     def delete_user(cls, user_id):
         query = {"_id": ObjectId(user_id)}
+        return cls.delete(query)
+
+
+class Item(MongoModel):
+    collection_name = 'items'
+
+    @classmethod
+    def create_item(cls, name, price, promotion=False):
+        data = {
+            "name": name,
+            "price": price,
+            "promotion": promotion
+        }
+        return cls.insert(data)
+
+    @classmethod
+    def create_multiple_items(cls, count=100):
+        items = []
+        for i in range(1, count + 1):
+            name = f"item{i}"
+            price = i * 10  # Example price calculation
+            promotion = (i % 2 == 0)  # Alternate promotion for every other item
+            items.append({"name": name, "price": price, "promotion": promotion})
+
+        return cls.insert_many(items)
+
+    @classmethod
+    def get_item(cls, item_id):
+        query = {"_id": ObjectId(item_id)}
+        items = cls.find(query)
+        return items[0] if items else None
+
+    @classmethod
+    def get_items(cls):
+        return cls.find()
+
+    @classmethod
+    def update_item(cls, item_id, new_data):
+        query = {"_id": ObjectId(item_id)}
+        return cls.update(query, new_data)
+
+    @classmethod
+    def delete_item(cls, item_id):
+        query = {"_id": ObjectId(item_id)}
         return cls.delete(query)
