@@ -3,7 +3,7 @@
 {% block content %}
 
 <style type="text/css">
-<<<<<<< HEAD
+
     .divider:after,
     .divider:before {
         content: "";
@@ -17,8 +17,6 @@
         max-width: 400px;
     }
 
-=======
->>>>>>> databases_creation
     .vh-100 {
         margin-top: 100px;
     }
@@ -85,7 +83,6 @@
         margin-right: 10px;
     }
 
-<<<<<<< HEAD
     .search-button {
         background-color: #343a40;
         color: white;
@@ -100,9 +97,7 @@
         background-color: #23272b;
     }
 
-=======
     .search-button,
->>>>>>> databases_creation
     .filter-button {
         background-color: #343a40;
         color: white;
@@ -124,7 +119,6 @@
         margin-left: 10px;
     }
 
-<<<<<<< HEAD
     #cart-preview {
         display: none;
         position: fixed;
@@ -160,7 +154,7 @@
 
     .view-cart-button:hover {
         background-color: #23272b;
-=======
+
     /* Style pour la pagination */
     .pagination {
         display: flex;
@@ -198,14 +192,13 @@
     .pagination a[disabled], .pagination .current[disabled] {
         color: #aaa;
         cursor: default;
->>>>>>> databases_creation
     }
+    
 </style>
 
 <div class="vh-100">
     <h1 class="text-center">Boutique en ligne</h1>
 
-<<<<<<< HEAD
     <div class="search-bar">
         <input type="text" class="search-input" placeholder="Rechercher un produit...">
         <button class="search-button">🔍</button>
@@ -213,7 +206,7 @@
             <option value="">Filtrer par</option>
             <option value="promo">Promotions</option>
             <option value="prix">Prix</option>
-=======
+
     <!-- Barre de recherche et boutons de filtre -->
     <div class="search-bar">
         <input type="text" class="search-input" placeholder="Rechercher un produit...">
@@ -223,13 +216,13 @@
             <option value="?filter=" {% if not promo_filter and not price_filter %}selected{% endif %}>Tous</option>
             <option value="?filter=promo" {% if promo_filter %}selected{% endif %}>Promotions</option>
             <option value="?filter=prix" {% if price_filter %}selected{% endif %}>Prix</option>
->>>>>>> databases_creation
+
         </select>
     </div>
 
     <!-- Affichage des produits -->
     <div class="product-container">
-<<<<<<< HEAD
+
         {% for product in products %}
         <div class="product-card">
             <img src="{{ product.image_url }}" alt="{{ product.name }}" class="product-image">
@@ -240,12 +233,11 @@
         {% empty %}
         <p>Aucun produit disponible pour le moment.</p>
         {% endfor %}
-=======
         {% for item in page_obj %}
             <div class="product-card">
                 <img src="https://www.cdiscount.com/pdt2/4/5/4/1/700x700/mp03089454/rw/casual-chaussure-homme-basket-homme-respirant-d.jpg" alt="{{ item.name }}" class="product-image">
                 <div class="product-price">€{{ item.price }}</div>
-                <a href="#" class="buy-button">Acheter</a>
+                <a href="javascript:void(0);" onclick="addToCart({{ product.id }})" class="buy-button">Acheter</a>
             </div>
         {% empty %}
             <p>Aucun produit trouvé.</p>
@@ -269,7 +261,7 @@
                 <a href="?page={{ page_obj.paginator.num_pages }}{% if is_promotion_filter %}&filter=promo{% endif %}">dernière &raquo;</a>
             {% endif %}
         </span>
->>>>>>> databases_creation
+
     </div>
 </div>
 

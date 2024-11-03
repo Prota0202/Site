@@ -1,12 +1,14 @@
 from django.contrib.auth import login, authenticate, logout
 from account.forms import RegistrationForm, AccountAuthenticationForm
 from account.forms import AccountUpdateForm
-<<<<<<< HEAD
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from .models import Product, CartItem
 from django.views.decorators.http import require_POST
 from .models import Order
+from mongo.models import Item, User
+from django.core.paginator import Paginator
+import random
 
 
 
@@ -77,11 +79,6 @@ def cart_view(request):
         'total': total,
         'quantity_range': quantity_range
     })
-=======
-from mongo.models import Item, User
-from django.core.paginator import Paginator
-import random
->>>>>>> databases_creation
 
 
 def registration_view(request):
@@ -114,10 +111,7 @@ def forgotPswd_view(request):
     return render(request, 'account/forgotPswd.html')
 
 def shop_view(request):
-<<<<<<< HEAD
     products = Product.objects.all()
-    return render(request, 'account/shop.html', {'products': products})
-=======
     
     is_promotion_filter = request.GET.get('filter') == 'promo'
     price_filter = request.GET.get('filter') == 'prix'
@@ -139,12 +133,12 @@ def shop_view(request):
     context = {
         'page_obj': page_obj,
         'is_promotion_filter': is_promotion_filter, 
-        'price_filter': price_filter 
+        'price_filter': price_filter,
+        'products': products,
     }
 
     return render(request, 'account/shop.html', context)
 
->>>>>>> databases_creation
 
 def login_view(request):
     context = {}
