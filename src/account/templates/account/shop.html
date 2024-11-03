@@ -3,6 +3,7 @@
 {% block content %}
 
 <style type="text/css">
+<<<<<<< HEAD
     .divider:after,
     .divider:before {
         content: "";
@@ -16,6 +17,8 @@
         max-width: 400px;
     }
 
+=======
+>>>>>>> databases_creation
     .vh-100 {
         margin-top: 100px;
     }
@@ -46,12 +49,6 @@
         max-width: 100%;
         height: auto;
         margin-bottom: 10px;
-    }
-
-    .product-title {
-        font-size: 18px;
-        font-weight: bold;
-        margin-bottom: 5px;
     }
 
     .product-price {
@@ -88,6 +85,7 @@
         margin-right: 10px;
     }
 
+<<<<<<< HEAD
     .search-button {
         background-color: #343a40;
         color: white;
@@ -102,6 +100,9 @@
         background-color: #23272b;
     }
 
+=======
+    .search-button,
+>>>>>>> databases_creation
     .filter-button {
         background-color: #343a40;
         color: white;
@@ -109,9 +110,9 @@
         padding: 10px 15px;
         border-radius: 5px;
         cursor: pointer;
-        margin-left: 10px;
     }
 
+    .search-button:hover,
     .filter-button:hover {
         background-color: #23272b;
     }
@@ -123,6 +124,7 @@
         margin-left: 10px;
     }
 
+<<<<<<< HEAD
     #cart-preview {
         display: none;
         position: fixed;
@@ -158,12 +160,52 @@
 
     .view-cart-button:hover {
         background-color: #23272b;
+=======
+    /* Style pour la pagination */
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 20px 0;
+        font-size: 16px;
+    }
+
+    .pagination .step-links {
+        display: flex;
+        gap: 10px;
+    }
+
+    .pagination a, .pagination .current {
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        color: #343a40;
+        text-decoration: none;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    .pagination a:hover {
+        background-color: #343a40;
+        color: #fff;
+    }
+
+    .pagination .current {
+        background-color: #343a40;
+        color: white;
+        font-weight: bold;
+    }
+
+    .pagination a[disabled], .pagination .current[disabled] {
+        color: #aaa;
+        cursor: default;
+>>>>>>> databases_creation
     }
 </style>
 
 <div class="vh-100">
     <h1 class="text-center">Boutique en ligne</h1>
 
+<<<<<<< HEAD
     <div class="search-bar">
         <input type="text" class="search-input" placeholder="Rechercher un produit...">
         <button class="search-button">🔍</button>
@@ -171,11 +213,23 @@
             <option value="">Filtrer par</option>
             <option value="promo">Promotions</option>
             <option value="prix">Prix</option>
+=======
+    <!-- Barre de recherche et boutons de filtre -->
+    <div class="search-bar">
+        <input type="text" class="search-input" placeholder="Rechercher un produit...">
+        <button class="search-button">🔍</button>
+
+        <select class="filter-select" onchange="window.location.href=this.value;">
+            <option value="?filter=" {% if not promo_filter and not price_filter %}selected{% endif %}>Tous</option>
+            <option value="?filter=promo" {% if promo_filter %}selected{% endif %}>Promotions</option>
+            <option value="?filter=prix" {% if price_filter %}selected{% endif %}>Prix</option>
+>>>>>>> databases_creation
         </select>
-        <button class="filter-button">Filtrer</button>
     </div>
-    
+
+    <!-- Affichage des produits -->
     <div class="product-container">
+<<<<<<< HEAD
         {% for product in products %}
         <div class="product-card">
             <img src="{{ product.image_url }}" alt="{{ product.name }}" class="product-image">
@@ -186,6 +240,36 @@
         {% empty %}
         <p>Aucun produit disponible pour le moment.</p>
         {% endfor %}
+=======
+        {% for item in page_obj %}
+            <div class="product-card">
+                <img src="https://www.cdiscount.com/pdt2/4/5/4/1/700x700/mp03089454/rw/casual-chaussure-homme-basket-homme-respirant-d.jpg" alt="{{ item.name }}" class="product-image">
+                <div class="product-price">€{{ item.price }}</div>
+                <a href="#" class="buy-button">Acheter</a>
+            </div>
+        {% empty %}
+            <p>Aucun produit trouvé.</p>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1{% if is_promotion_filter %}&filter=promo{% endif %}">&laquo; première</a>
+                <a href="?page={{ page_obj.previous_page_number }}{% if is_promotion_filter %}&filter=promo{% endif %}">précédente</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}{% if is_promotion_filter %}&filter=promo{% endif %}">suivante</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}{% if is_promotion_filter %}&filter=promo{% endif %}">dernière &raquo;</a>
+            {% endif %}
+        </span>
+>>>>>>> databases_creation
     </div>
 </div>
 

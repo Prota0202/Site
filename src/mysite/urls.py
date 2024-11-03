@@ -15,9 +15,16 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+<<<<<<< HEAD
 from django.urls import path
 from personal.views import home_screen_view
 from account import views
+=======
+from django.urls import path, include
+from personal.views import (
+    home_screen_view,
+)
+>>>>>>> databases_creation
 
 from account.views import (
     checkout_view,
@@ -27,10 +34,14 @@ from account.views import (
     account_view,
     forgotPswd_view,
     shop_view,
+<<<<<<< HEAD
     add_to_cart,      
     cart_view,
     confirm_checkout,    
     order_history_view,    
+=======
+
+>>>>>>> databases_creation
 )
 
 urlpatterns = [
@@ -43,9 +54,14 @@ urlpatterns = [
     path('account/', account_view, name='account'),
     path('forgotPswd/', forgotPswd_view, name='forgotPswd'),
     path('shop/', shop_view, name='shop'),
+<<<<<<< HEAD
     path('add-to-cart/<int:product_id>/', add_to_cart, name='add_to_cart'),
     path('cart/', cart_view, name='cart_view'),
     path('checkout/', checkout_view, name='checkout'),
     path('checkout/confirm/', confirm_checkout, name='confirm_checkout'),
     path('account/orders/', order_history_view, name='order_history'),
+=======
+    path("mongo/", include("mongo.urls")),
+
+>>>>>>> databases_creation
 ]
