@@ -12,7 +12,7 @@ import random
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import EmailAuthenticationForm 
 
-
+is_connected = False
 
 def order_history_view(request):
     if not request.user.is_authenticated:
@@ -97,6 +97,12 @@ def registration_view(request):
 
 def logout_view(request):
     logout(request)
+    if 'is_connected' in request.session:
+        del request.session['is_connected']
+
+    if 'isAdmin' in request.session:
+        del request.session['isAdmin']
+
     return redirect('home')
 
 def forgotPswd_view(request):
@@ -129,32 +135,44 @@ def shop_view(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)  # Récupère les éléments pour la page en cours
 
+    print(is_connected)
+
     context = {
         'page_obj': page_obj,
         'is_promotion_filter': is_promotion_filter, 
         'price_filter': price_filter,
         'products': products,
+        'is_connected': request.session.get('is_connected', False),
+        'isAdmin' : request.session.get('isAdmin', False)
     }
 
     return render(request, 'account/shop.html', context)
 
 
 def login_view(request):
+    is_connected = False
     if request.method == 'POST':
         username = request.POST.get('email')  
         password = request.POST.get('password')
         user=User.get_user_by_email(username)
         if(user["password"]== password):
-            return redirect('home')   
+            request.session['is_connected'] = True
+            request.session['isAdmin']= False
+            isAdmin = request.session['isAdmin']
+            if(user["isAdmin"] == True):
+                request.session['isAdmin'] = True
+                isAdmin = request.session['isAdmin']
+        return render(request, 'account/home.html', {'is_connected': True, 'isAdmin': isAdmin}) 
     else:
         form = AuthenticationForm()  
 
-    return render(request, 'account/login.html')
+    return render(request, 'account/login.html', {'is_connected': is_connected})
 
 
 
 def account_view(request):
-    if not request.user.is_authenticated:
+    is_connected = request.session.get('is_connected', False)
+    if not is_connected:
         return redirect('login')
 
     context = {}
@@ -176,7 +194,12 @@ def account_view(request):
             }
         )
 
-    context['account_form'] = form
+    context = {
+        'account_form':  form,
+        'is_connected': request.session.get('is_connected', False)
+
+    }
+
     return render(request, 'account/account.html', context)
 
 
@@ -202,7 +225,9 @@ def users_view(request):
     context = {
         'users': users,
         'search_query': search_query,
-        'filter_admin': filter_type
+        'filter_admin': filter_type,
+        'is_connected': request.session.get('is_connected', False),
+        'isAdmin' : request.session.get('is_connected', False)
     }
 
     return render(request, 'account/users.html', context)
