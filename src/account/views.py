@@ -9,6 +9,8 @@ from .models import Order
 from mongo.models import Item, User
 from django.core.paginator import Paginator
 import random
+from django.contrib.auth.forms import AuthenticationForm
+from .forms import EmailAuthenticationForm 
 
 
 
@@ -84,19 +86,13 @@ def cart_view(request):
 def registration_view(request):
     context = {}
     if request.POST:
-        form = RegistrationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            email = form.cleaned_data.get('email')
-            raw_password = form.cleaned_data.get('password1')
-            account = authenticate(email=email, password=raw_password)
-            login(request, account)
-            return redirect('home')
-        else:
-            context['registration_form'] = form
-    else:
-        form = RegistrationForm()
-        context['registration_form'] = form
+        if(request.POST.get('password1') == request.POST.get('password2')):
+            email = request.POST.get('email') 
+            username = request.POST.get('username')  
+            password = request.POST.get('password1')
+            User.create_user(username,password,False, email)
+            return redirect('login')
+       
     return render(request, 'account/register.html', context)
 
 def logout_view(request):
@@ -105,7 +101,10 @@ def logout_view(request):
 
 def forgotPswd_view(request):
     if request.method == 'POST':
-        # Logique pour traiter la demande de réinitialisation de mot de passe
+        if(request.POST.get('password1') == request.POST.get('password2')):
+            email = request.POST.get('email')  
+            password = request.POST.get('password1')
+            User.update_pswd(email,password)
         return redirect('login')  # ou toute autre page pertinente
 
     return render(request, 'account/forgotPswd.html')
@@ -141,26 +140,18 @@ def shop_view(request):
 
 
 def login_view(request):
-    context = {}
-    user = request.user
-    if user.is_authenticated:
-        return redirect('home')
-    
-    if request.POST:
-        form = AccountAuthenticationForm(request.POST)
-        if form.is_valid():
-            email = request.POST['email']
-            password = request.POST['password']
-            user = authenticate(email=email, password=password)
-            
-            if user:
-                login(request, user)
-                return redirect('home')
+    if request.method == 'POST':
+        username = request.POST.get('email')  
+        password = request.POST.get('password')
+        user=User.get_user_by_email(username)
+        if(user["password"]== password):
+            return redirect('home')   
     else:
-        form = AccountAuthenticationForm()
-        
-    context['login_form'] = form
-    return render(request, 'account/login.html', context)
+        form = AuthenticationForm()  
+
+    return render(request, 'account/login.html')
+
+
 
 def account_view(request):
     if not request.user.is_authenticated:
@@ -191,13 +182,11 @@ def account_view(request):
 
 
 def users_view(request):
-    # Récupérer tous les utilisateurs par défaut
+    
     users = User.get_users()
 
-    # Récupérer le filtre depuis la requête
     filter_type = request.GET.get('filter', '')
 
-    # Appliquer le filtre basé sur la sélection
     if filter_type == 'isAdmin':
         users = User.find({'isAdmin': True})
         print(users)
@@ -205,14 +194,11 @@ def users_view(request):
         users = User.find({'isAdmin': False})
         print(users)
 
-    # Récupérer la requête de recherche
     search_query = request.GET.get('search', '')
 
-    # Appliquer la recherche
     if search_query:
         users = [user for user in users if search_query.lower() in user['username'].lower()]
 
-    # Context pour le rendu
     context = {
         'users': users,
         'search_query': search_query,

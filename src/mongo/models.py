@@ -85,6 +85,16 @@ class User(MongoModel):
     def update_user(cls, user_id, new_data):
         query = {"_id": ObjectId(user_id)}
         return cls.update(query, new_data)
+    
+    @classmethod
+    def update_pswd(cls, user_email, new_pswd):
+        user = cls.get_user_by_email(user_email)
+        if user:  
+            user_id = user["_id"]
+            query = {"_id": ObjectId(user_id)} 
+            new_data = {"password": new_pswd}
+            cls.update(query, new_data)  
+        return None 
 
     @classmethod
     def delete_user(cls, user_id):
@@ -103,6 +113,15 @@ class User(MongoModel):
         query = {"username": username}  # Requête pour trouver l'utilisateur par nom d'utilisateur
         user = cls.find(query)  # Rechercher l'utilisateur dans la collection
         return user[0]["_id"] if user else None  # Retourne l'_id ou None si l'utilisateur n'existe pas
+    
+
+    @classmethod
+    def get_user_by_email(cls, email):
+        email = email.strip()
+        query = {"email": email}
+        users = cls.find(query)
+        print(f"Query: {query}, Users Found: {users}")
+        return users[0] if users else None
 
 
 class Item(MongoModel):
