@@ -5,7 +5,7 @@ import string
 
 
 class MongoModel:
-    collection_name = ''  # Spécifie le nom de la collection
+    collection_name = 'TestProject'  
 
     @classmethod
     def get_collection(cls):

@@ -3,21 +3,6 @@
 {% block content %}
 
 <style type="text/css">
-    .divider:after,
-    .divider:before {
-        content: "";
-        flex: 1;
-        height: 1px;
-        background: #eee;
-    }
-
-    /* Adjust image to fit within its container without overlapping */
-    .login-image {
-        width: 100%;
-        max-width: 400px;
-    }
-
-    /* Container styles to ensure proper layout */
     .vh-100 {
         margin-top: 100px;
     }
@@ -50,12 +35,6 @@
         margin-bottom: 10px;
     }
 
-    .product-title {
-        font-size: 18px;
-        font-weight: bold;
-        margin-bottom: 5px;
-    }
-
     .product-price {
         color: #28a745;
         font-size: 16px;
@@ -63,7 +42,7 @@
     }
 
     .buy-button {
-        background-color: #343a40; /* Gris foncé */
+        background-color: #343a40;
         color: white;
         border: none;
         padding: 10px 15px;
@@ -73,7 +52,7 @@
     }
 
     .buy-button:hover {
-        background-color: #23272b; /* Couleur de survol plus foncée */
+        background-color: #23272b;
     }
 
     .search-bar {
@@ -90,32 +69,19 @@
         margin-right: 10px;
     }
 
-    .search-button {
-        background-color: #343a40; /* Gris foncé */
-        color: white;
-        border: none;
-        padding: 10px 15px;
-        border-radius: 5px;
-        cursor: pointer;
-        margin-left: -5px; /* Pour aligner avec la barre de recherche */
-    }
-
-    .search-button:hover {
-        background-color: #23272b; /* Couleur de survol plus foncée */
-    }
-
+    .search-button,
     .filter-button {
-        background-color: #343a40; /* Gris foncé */
+        background-color: #343a40;
         color: white;
         border: none;
         padding: 10px 15px;
         border-radius: 5px;
         cursor: pointer;
-        margin-left: 10px;
     }
 
+    .search-button:hover,
     .filter-button:hover {
-        background-color: #23272b; /* Couleur de survol plus foncée */
+        background-color: #23272b;
     }
 
     .filter-select {
@@ -124,48 +90,92 @@
         border-radius: 5px;
         margin-left: 10px;
     }
+
+    /* Style pour la pagination */
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 20px 0;
+        font-size: 16px;
+    }
+
+    .pagination .step-links {
+        display: flex;
+        gap: 10px;
+    }
+
+    .pagination a, .pagination .current {
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        color: #343a40;
+        text-decoration: none;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    .pagination a:hover {
+        background-color: #343a40;
+        color: #fff;
+    }
+
+    .pagination .current {
+        background-color: #343a40;
+        color: white;
+        font-weight: bold;
+    }
+
+    .pagination a[disabled], .pagination .current[disabled] {
+        color: #aaa;
+        cursor: default;
+    }
 </style>
 
 <div class="vh-100">
     <h1 class="text-center">Boutique en ligne</h1>
-    
-    <!-- Barre de recherche et bouton de filtre -->
+
+    <!-- Barre de recherche et boutons de filtre -->
     <div class="search-bar">
         <input type="text" class="search-input" placeholder="Rechercher un produit...">
-        <button class="search-button">🔍</button> <!-- Icône de loupe -->
-        <select class="filter-select">
-            <option value="">Filtrer par</option>
-            <option value="promo">Promotions</option>
-            <option value="prix">Prix</option>
+        <button class="search-button">🔍</button>
+
+        <select class="filter-select" onchange="window.location.href=this.value;">
+            <option value="?filter=" {% if not promo_filter and not price_filter %}selected{% endif %}>Tous</option>
+            <option value="?filter=promo" {% if promo_filter %}selected{% endif %}>Promotions</option>
+            <option value="?filter=prix" {% if price_filter %}selected{% endif %}>Prix</option>
         </select>
-        <button class="filter-button">Filtrer</button>
     </div>
-    
+
+    <!-- Affichage des produits -->
     <div class="product-container">
-        <div class="product-card">
-            <img src="https://www.cdiscount.com/pdt2/4/5/4/1/700x700/mp03089454/rw/casual-chaussure-homme-basket-homme-respirant-d.jpg" alt="Produit 1" class="product-image">
-            <div class="product-title">Produit 1</div>
-            <div class="product-price">€10,00</div>
-            <a href="#" class="buy-button">Acheter</a>
-        </div>
-        <div class="product-card">
-            <img src="https://www.cdiscount.com/pdt2/4/5/4/1/700x700/mp03089454/rw/casual-chaussure-homme-basket-homme-respirant-d.jpg" alt="Produit 2" class="product-image">
-            <div class="product-title">Produit 2</div>
-            <div class="product-price">€20,00</div>
-            <a href="#" class="buy-button">Acheter</a>
-        </div>
-        <div class="product-card">
-            <img src="https://www.cdiscount.com/pdt2/4/5/4/1/700x700/mp03089454/rw/casual-chaussure-homme-basket-homme-respirant-d.jpg" alt="Produit 3" class="product-image">
-            <div class="product-title">Produit 3</div>
-            <div class="product-price">€15,00</div>
-            <a href="#" class="buy-button">Acheter</a>
-        </div>
-        <div class="product-card">
-            <img src="https://www.cdiscount.com/pdt2/4/5/4/1/700x700/mp03089454/rw/casual-chaussure-homme-basket-homme-respirant-d.jpg" alt="Produit 4" class="product-image">
-            <div class="product-title">Produit 4</div>
-            <div class="product-price">€25,00</div>
-            <a href="#" class="buy-button">Acheter</a>
-        </div>
+        {% for item in page_obj %}
+            <div class="product-card">
+                <img src="https://www.cdiscount.com/pdt2/4/5/4/1/700x700/mp03089454/rw/casual-chaussure-homme-basket-homme-respirant-d.jpg" alt="{{ item.name }}" class="product-image">
+                <div class="product-price">€{{ item.price }}</div>
+                <a href="#" class="buy-button">Acheter</a>
+            </div>
+        {% empty %}
+            <p>Aucun produit trouvé.</p>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1{% if is_promotion_filter %}&filter=promo{% endif %}">&laquo; première</a>
+                <a href="?page={{ page_obj.previous_page_number }}{% if is_promotion_filter %}&filter=promo{% endif %}">précédente</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}{% if is_promotion_filter %}&filter=promo{% endif %}">suivante</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}{% if is_promotion_filter %}&filter=promo{% endif %}">dernière &raquo;</a>
+            {% endif %}
+        </span>
     </div>
 </div>
 

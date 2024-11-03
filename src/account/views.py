@@ -3,6 +3,9 @@ from django.shortcuts import redirect
 from django.contrib.auth import login, authenticate , logout
 from account.forms import RegistrationForm, AccountAuthenticationForm
 from account.forms import AccountUpdateForm
+from mongo.models import Item, User
+from django.core.paginator import Paginator
+import random
 
 # Create your views here.
 
@@ -45,16 +48,31 @@ def forgotPswd_view(request):
 
 
 def shop_view(request):
-    # Si c'est une requête POST, traitez le formulaire ici
-    if request.method == 'POST':
-        # Logique pour traiter la demande de réinitialisation de mot de passe
-        # ...
+    
+    is_promotion_filter = request.GET.get('filter') == 'promo'
+    price_filter = request.GET.get('filter') == 'prix'
 
-        # Rediriger vers une autre page après traitement, par exemple la page de confirmation
-        return redirect('login')  # ou toute autre page pertinente
+    if is_promotion_filter:
+        items = Item.find({'promotion': True})
+    else:
+        items = Item.get_items()
+    
+    random.shuffle(items)
 
-    # Si c'est une requête GET, afficher le formulaire de réinitialisation
-    return render(request, 'account/shop.html')  # Assurez-vous d'avoir ce template
+    if price_filter:
+        items = sorted(items, key=lambda x: x['price']) 
+
+    paginator = Paginator(items, 20) 
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)  # Récupère les éléments pour la page en cours
+
+    context = {
+        'page_obj': page_obj,
+        'is_promotion_filter': is_promotion_filter, 
+        'price_filter': price_filter 
+    }
+
+    return render(request, 'account/shop.html', context)
 
 
 def login_view(request):
