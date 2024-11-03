@@ -173,3 +173,4 @@ class Item(MongoModel):
         query = {"name": name}  # Requête pour trouver l'utilisateur par nom d'utilisateur
         user = cls.find(query)  # Rechercher l'utilisateur dans la collection
         return user[0]["_id"] if user else None  # Retourne l'_id ou None si l'utilisateur n'existe pas
+
