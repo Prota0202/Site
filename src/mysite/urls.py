@@ -29,7 +29,8 @@ from account.views import (
     shop_view,
     add_to_cart,      
     cart_view,
-    confirm_checkout,        
+    confirm_checkout,    
+    order_history_view,    
 )
 
 urlpatterns = [
@@ -45,5 +46,6 @@ urlpatterns = [
     path('add-to-cart/<int:product_id>/', add_to_cart, name='add_to_cart'),
     path('cart/', cart_view, name='cart_view'),
     path('checkout/', checkout_view, name='checkout'),
-    path('checkout/confirm/', confirm_checkout, name='confirm_checkout')
+    path('checkout/confirm/', confirm_checkout, name='confirm_checkout'),
+    path('account/orders/', order_history_view, name='order_history'),
 ]

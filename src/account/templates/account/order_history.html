@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .container {
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        font-family: 'Arial', sans-serif;
+    }
+
+    .container h2 {
+        text-align: center;
+        font-size: 28px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 30px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .order-summary {
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #fff;
+        margin-bottom: 20px;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .order-summary h3 {
+        font-size: 20px;
+        font-weight: 600;
+        color: #555;
+        margin-bottom: 10px;
+    }
+
+    .order-summary ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .order-summary li {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid #eee;
+        font-size: 16px;
+    }
+
+    .order-summary li:last-child {
+        border-bottom: none;
+    }
+
+    .empty-message {
+        text-align: center;
+        font-size: 18px;
+        color: #888;
+        margin-top: 20px;
+    }
+
+    .btn-back {
+        display: block;
+        width: 100%;
+        padding: 12px;
+        margin-top: 30px;
+        background-color: #333;
+        color: white;
+        text-align: center;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 5px;
+        text-decoration: none;
+        text-transform: uppercase;
+    }
+
+    .btn-back:hover {
+        background-color: #555;
+    }
+</style>
+
+<div class="container">
+    <h2>Vos Commandes</h2>
+
+    {% if orders %}
+        {% for order in orders %}
+            <div class="order-summary">
+                <h3>Commande {{ order.id }} - {{ order.created_at|date:"d/m/Y" }}</h3>
+                <ul>
+                    {% for item in order.items.all %}
+                        <li>{{ item.product.name }} - Quantité : {{ item.quantity }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <hr>
+        {% endfor %}
+    {% else %}
+        <p>Aucune commande passée.</p>
+    {% endif %}
+</div>
+{% endblock %}

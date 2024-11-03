@@ -5,6 +5,19 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from .models import Product, CartItem
 from django.views.decorators.http import require_POST
+from .models import Order
+
+
+
+def order_history_view(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    
+    orders = Order.objects.filter(user=request.user)
+    return render(request, 'account/order_history.html', {'orders': orders})
+
+
+
 
 def confirm_checkout(request):
     return render(request, 'account/confirmation.html', {'message': 'Merci pour votre achat !'})
