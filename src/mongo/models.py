@@ -174,3 +174,55 @@ class Item(MongoModel):
         user = cls.find(query)  # Rechercher l'utilisateur dans la collection
         return user[0]["_id"] if user else None  # Retourne l'_id ou None si l'utilisateur n'existe pas
 
+
+class Order(MongoModel):
+    collection_name = 'orders'
+
+    @classmethod
+    def create_order(cls, orderName, username, itemsids, itemNames):
+        data = {
+            "orderName": orderName,
+            "username": username,
+            "itemsids": itemsids,
+            "itemNames": itemNames
+        }
+        return cls.insert(data)
+
+    @classmethod
+    def create_multiple_orders(cls, count=100):
+        items = []
+        for i in range(1, count + 1):
+            orderName = f"order{i}"
+            username = f"admin"
+            itemsids = " "
+            itemNames = " " 
+            items.append({"orderName": orderName, "username": username, "itemsids": itemsids, "itemNames": itemNames})
+
+        return cls.insert_many(items)
+
+    @classmethod
+    def get_order(cls, order_id):
+        query = {"_id": ObjectId(order_id)}
+        orders = cls.find(query)
+        return orders[0] if orders else None
+
+    @classmethod
+    def get_orders(cls):
+        return cls.find()
+
+    @classmethod
+    def update_order(cls, order_id, new_data):
+        query = {"_id": ObjectId(order_id)}
+        return cls.update(query, new_data)
+
+    @classmethod
+    def delete_order(cls, order_id):
+        query = {"_id": ObjectId(order_id)}
+        return cls.delete(query)
+
+
+    @classmethod
+    def get_id(cls, name):
+        query = {"name": name}
+        user = cls.find(query)
+        return user[0]["_id"] if user else None
