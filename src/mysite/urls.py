@@ -27,6 +27,7 @@ from account.views import (
     account_view,
     forgotPswd_view,
     shop_view,
+    users_view,
 
 )
 
@@ -39,6 +40,7 @@ urlpatterns = [
     path('account/', account_view, name='account'),
     path('forgotPswd/', forgotPswd_view, name='forgotPswd'),
     path('shop/', shop_view, name='shop'),
+    path('users/', users_view, name='users'),
     path("mongo/", include("mongo.urls")),
 
 ]

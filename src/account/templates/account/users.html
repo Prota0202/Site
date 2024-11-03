@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style type="text/css">
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f9;
+        color: #333;
+        margin: 0;
+        padding: 0;
+        padding-top: 60px; 
+    }
+
+    .container {
+        width: 80%;
+        margin: 0 auto;
+        padding: 20px;
+        text-align: center;
+    }
+
+    h1 {
+        color: #2c3e50;
+        margin-bottom: 20px;
+        padding-top: 60px;
+    }
+
+    .user-table {
+        width: 100%;
+        border-collapse: collapse;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+
+    .user-table th, .user-table td {
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        text-align: center;
+    }
+
+    .user-table th {
+        background-color: #34495e; /* Bleu foncé */
+        color: #ffffff;
+    }
+
+    .user-table tr:nth-child(even) {
+        background-color: #f2f2f2; /* Gris clair pour les lignes paires */
+    }
+
+    .user-table tr:nth-child(odd) {
+        background-color: #e6e6e6; /* Gris un peu plus foncé pour les lignes impaires */
+    }
+
+    .user-table tr:hover {
+        background-color: #d3d3d3; /* Gris plus foncé pour le survol */
+        color: #34495e;
+    }
+
+    .user-table td {
+        color: #34495e; /* Bleu foncé */
+    }
+</style>
+
+<div class="container">
+    <h1>Liste des Utilisateurs</h1>
+    <table class="user-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom d'utilisateur</th>
+                <th>Mot de passe</th>
+                <th>Admin</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.password }}</td>
+                <td>{{ user.isAdmin }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock content %}

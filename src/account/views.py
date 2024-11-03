@@ -123,3 +123,12 @@ def account_view(request):
 
     context['account_form'] = form
     return render(request, 'account/account.html', context)
+
+
+
+def users_view(request):
+    users= User.get_users()
+    #User.create_user("admin2", "admin2", "True", "admin2@test.be")
+    #print(users)
+    context= {'users': users}
+    return render (request, 'account/users.html' ,context )
