@@ -16,24 +16,24 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from personal.views import (
-    home_screen_view,
-)
+from personal.views import home_screen_view
+from account import views
 
 from account.views import (
+    checkout_view,
     registration_view,
     logout_view,
     login_view,
     account_view,
     forgotPswd_view,
     shop_view,
-
-
+    add_to_cart,      
+    cart_view,
+    confirm_checkout,        
 )
 
-
-
 urlpatterns = [
+    
     path('admin/', admin.site.urls),
     path('', home_screen_view, name='home'),
     path('register/', registration_view, name='register'),
@@ -42,5 +42,8 @@ urlpatterns = [
     path('account/', account_view, name='account'),
     path('forgotPswd/', forgotPswd_view, name='forgotPswd'),
     path('shop/', shop_view, name='shop'),
-    
+    path('add-to-cart/<int:product_id>/', add_to_cart, name='add_to_cart'),
+    path('cart/', cart_view, name='cart_view'),
+    path('checkout/', checkout_view, name='checkout'),
+    path('checkout/confirm/', confirm_checkout, name='confirm_checkout')
 ]

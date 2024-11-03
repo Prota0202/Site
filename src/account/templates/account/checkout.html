@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    /* Container styling */
+    .checkout-container {
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 30px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
+        font-family: 'Arial', sans-serif;
+    }
+
+    /* Title styling */
+    .checkout-container h2 {
+        text-align: center;
+        font-size: 28px;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 30px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    /* Section titles */
+    .checkout-section {
+        margin-bottom: 25px;
+    }
+    .checkout-section h3 {
+        font-size: 20px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 15px;
+        text-transform: uppercase;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 8px;
+    }
+
+    /* Order summary */
+    .order-summary {
+        border-top: 1px solid #ddd;
+        padding: 20px 0;
+        margin: 20px 0;
+    }
+    .order-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        font-size: 16px;
+        color: #555;
+    }
+    .order-item p {
+        margin: 0;
+    }
+
+    /* Cost breakdown */
+    .cost-breakdown {
+        display: flex;
+        justify-content: space-between;
+        font-size: 16px;
+        margin-top: 15px;
+    }
+    .cost-breakdown p {
+        margin: 5px 0;
+    }
+    .total-price {
+        font-weight: 700;
+        font-size: 20px;
+        color: #333;
+    }
+
+    /* Checkout button */
+    .checkout-button {
+        display: block;
+        width: 100%;
+        padding: 15px;
+        margin-top: 30px;
+        background-color: #333;
+        color: white;
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+        border-radius: 5px;
+        text-decoration: none;
+        text-transform: uppercase;
+        transition: background-color 0.3s ease;
+    }
+    .checkout-button:hover {
+        background-color: #555;
+    }
+</style>
+
+<div class="checkout-container">
+    <h2>Passer à la caisse</h2>
+
+    <!-- Order Summary Section -->
+    <div class="checkout-section">
+        <h3>Récapitulatif de la commande</h3>
+        <div class="order-summary">
+            {% for item in cart_items %}
+            <div class="order-item">
+                <p>{{ item.product.name }} x{{ item.quantity }}</p>
+                <p>€{{ item.total_price }}</p>
+            </div>
+            {% empty %}
+            <p>Votre panier est vide.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Cost Breakdown Section -->
+    <div class="checkout-section">
+        <h3>Détails des coûts</h3>
+        <div class="cost-breakdown">
+            <p>Sous-total :</p>
+            <p>€{{ subtotal }}</p>
+        </div>
+        <div class="cost-breakdown">
+            <p>Frais de livraison :</p>
+            <p>€{{ shipping_cost }}</p>
+        </div>
+        <div class="cost-breakdown">
+            <p class="total-price">Total :</p>
+            <p class="total-price">€{{ total2 }}</p>
+        </div>
+    </div>
+
+    <!-- Checkout Button -->
+    <a href="{% url 'confirm_checkout' %}" class="checkout-button">Confirmer l'achat</a>
+</div>
+{% endblock %}

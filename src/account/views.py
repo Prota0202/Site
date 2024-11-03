@@ -1,10 +1,69 @@
-from django.shortcuts import render
-from django.shortcuts import redirect
-from django.contrib.auth import login, authenticate , logout
+from django.contrib.auth import login, authenticate, logout
 from account.forms import RegistrationForm, AccountAuthenticationForm
 from account.forms import AccountUpdateForm
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import JsonResponse
+from .models import Product, CartItem
+from django.views.decorators.http import require_POST
 
-# Create your views here.
+def confirm_checkout(request):
+    return render(request, 'account/confirmation.html', {'message': 'Merci pour votre achat !'})
+
+def checkout_view(request):
+   
+    cart_items = CartItem.objects.all()
+    
+    
+    subtotal = sum(item.total_price() for item in cart_items)
+    shipping_cost = 5
+    total = sum(shipping_cost for item in cart_items) + subtotal
+    
+    context = {
+        'cart_items': cart_items,
+        'subtotal': subtotal,
+        'shipping_cost': shipping_cost,
+        'total': total
+
+    }
+    
+    return render(request, 'account/checkout.html', context)
+
+
+@require_POST
+def add_to_cart(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    cart_item, created = CartItem.objects.get_or_create(product=product)
+
+    if not created:
+        cart_item.quantity += 1
+        cart_item.save()
+
+   
+    cart_items = CartItem.objects.all()
+    cart_items_data = [
+        {"product_name": item.product.name, "quantity": item.quantity, "total_price": item.total_price()}
+        for item in cart_items
+    ]
+    total = sum(item.total_price() for item in cart_items)
+
+   
+    return JsonResponse({
+        "success": True,
+        "cart_items": cart_items_data,
+        "total": total
+    })
+
+def cart_view(request):
+    cart_items = CartItem.objects.all()
+    total = sum(item.total_price() for item in cart_items)
+    quantity_range = range(1, 11)
+
+    return render(request, 'account/cart.html', {
+        'cart_items': cart_items,
+        'total': total,
+        'quantity_range': quantity_range
+    })
+
 
 def registration_view(request):
     context = {}
@@ -28,38 +87,19 @@ def logout_view(request):
     logout(request)
     return redirect('home')
 
-
-from django.shortcuts import render
-
 def forgotPswd_view(request):
-    # Si c'est une requête POST, traitez le formulaire ici
     if request.method == 'POST':
         # Logique pour traiter la demande de réinitialisation de mot de passe
-        # ...
-
-        # Rediriger vers une autre page après traitement, par exemple la page de confirmation
         return redirect('login')  # ou toute autre page pertinente
 
-    # Si c'est une requête GET, afficher le formulaire de réinitialisation
-    return render(request, 'account/forgotPswd.html')  # Assurez-vous d'avoir ce template
-
+    return render(request, 'account/forgotPswd.html')
 
 def shop_view(request):
-    # Si c'est une requête POST, traitez le formulaire ici
-    if request.method == 'POST':
-        # Logique pour traiter la demande de réinitialisation de mot de passe
-        # ...
-
-        # Rediriger vers une autre page après traitement, par exemple la page de confirmation
-        return redirect('login')  # ou toute autre page pertinente
-
-    # Si c'est une requête GET, afficher le formulaire de réinitialisation
-    return render(request, 'account/shop.html')  # Assurez-vous d'avoir ce template
-
+    products = Product.objects.all()
+    return render(request, 'account/shop.html', {'products': products})
 
 def login_view(request):
     context = {}
-    
     user = request.user
     if user.is_authenticated:
         return redirect('home')
@@ -105,3 +145,5 @@ def account_view(request):
 
     context['account_form'] = form
     return render(request, 'account/account.html', context)
+
+
