@@ -63,7 +63,7 @@ class User(MongoModel):
             email= f"user{i}@test.be"
             username = f"user{i}"
             password = f"password{i}"
-            isAdmin = f"False"
+            isAdmin = False
             users.append({"email": email,"username": username, "password": password, "isAdmin": isAdmin})
 
         collection = cls.get_collection()

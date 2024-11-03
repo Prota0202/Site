@@ -62,6 +62,20 @@
 
 <div class="container">
     <h1>Liste des Utilisateurs</h1>
+
+    <div class="search-bar">
+        <form method="get">
+            <input type="text" class="search-input" name="search" placeholder="Rechercher un utilisateur..." value="{{ search_query }}">
+            <button class="search-button" type="submit">🔍</button>
+            <select name="filter" class="filter-select" onchange="this.form.submit();">
+                <option value="" {% if not filter_admin %}selected{% endif %}>Tous</option>
+                <option value="isAdmin" {% if filter_admin == 'isAdmin' %}selected{% endif %}>Admin</option>
+                <option value="isNotAdmin" {% if filter_admin == 'isNotAdmin' %}selected{% endif %}>Non Admin</option>
+            </select>
+        </form>
+    </div>
+    
+
     <table class="user-table">
         <thead>
             <tr>
@@ -78,6 +92,10 @@
                 <td>{{ user.username }}</td>
                 <td>{{ user.password }}</td>
                 <td>{{ user.isAdmin }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">Aucun utilisateur trouvé.</td>
             </tr>
             {% endfor %}
         </tbody>

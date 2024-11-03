@@ -191,8 +191,33 @@ def account_view(request):
 
 
 def users_view(request):
-    users= User.get_users()
-    #User.create_user("admin2", "admin2", "True", "admin2@test.be")
-    #print(users)
-    context= {'users': users}
-    return render (request, 'account/users.html' ,context )
+    # Récupérer tous les utilisateurs par défaut
+    users = User.get_users()
+
+    # Récupérer le filtre depuis la requête
+    filter_type = request.GET.get('filter', '')
+
+    # Appliquer le filtre basé sur la sélection
+    if filter_type == 'isAdmin':
+        users = User.find({'isAdmin': True})
+        print(users)
+    elif filter_type == 'isNotAdmin':
+        users = User.find({'isAdmin': False})
+        print(users)
+
+    # Récupérer la requête de recherche
+    search_query = request.GET.get('search', '')
+
+    # Appliquer la recherche
+    if search_query:
+        users = [user for user in users if search_query.lower() in user['username'].lower()]
+
+    # Context pour le rendu
+    context = {
+        'users': users,
+        'search_query': search_query,
+        'filter_admin': filter_type
+    }
+
+    return render(request, 'account/users.html', context)
+
