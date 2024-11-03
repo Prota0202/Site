@@ -28,7 +28,7 @@ class MongoModel:
         documents = collection.find(query)
         result = []
         for doc in documents:
-            doc['_id'] = str(doc['_id'])  # Conversion de ObjectId en str
+            doc['_id'] = str(doc['_id']) 
             result.append(doc)
         return result
 
@@ -47,20 +47,24 @@ class User(MongoModel):
     collection_name = 'users'
 
     @classmethod
-    def create_user(cls, username, password):
+    def create_user(cls, username, password,isAdmin, email):
         data = {
+            "email": email, 
             "username": username,
-            "password": password
+            "password": password,
+            "isAdmin": isAdmin,
         }
         return cls.insert(data)
 
     @classmethod
-    def create_multiple_users(cls, count=100):
+    def create_multiple_users(cls, count=1000):
         users = []
         for i in range(1, count + 1):
+            email= f"user{i}@test.be"
             username = f"user{i}"
             password = f"password{i}"
-            users.append({"username": username, "password": password})
+            isAdmin = f"False"
+            users.append({"email": email,"username": username, "password": password, "isAdmin": isAdmin})
 
         collection = cls.get_collection()
         result = collection.insert_many(users)
@@ -86,6 +90,19 @@ class User(MongoModel):
     def delete_user(cls, user_id):
         query = {"_id": ObjectId(user_id)}
         return cls.delete(query)
+    
+
+    @classmethod
+    def delete_all_users(cls):
+        collection = cls.get_collection()
+        result = collection.delete_many({})
+        return result.deleted_count
+    
+    @classmethod
+    def get_id(cls, username):
+        query = {"username": username}  # Requête pour trouver l'utilisateur par nom d'utilisateur
+        user = cls.find(query)  # Rechercher l'utilisateur dans la collection
+        return user[0]["_id"] if user else None  # Retourne l'_id ou None si l'utilisateur n'existe pas
 
 
 class Item(MongoModel):
@@ -130,3 +147,10 @@ class Item(MongoModel):
     def delete_item(cls, item_id):
         query = {"_id": ObjectId(item_id)}
         return cls.delete(query)
+    
+
+    @classmethod
+    def get_id(cls, name):
+        query = {"name": name}  # Requête pour trouver l'utilisateur par nom d'utilisateur
+        user = cls.find(query)  # Rechercher l'utilisateur dans la collection
+        return user[0]["_id"] if user else None  # Retourne l'_id ou None si l'utilisateur n'existe pas

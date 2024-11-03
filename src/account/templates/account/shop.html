@@ -3,7 +3,6 @@
 {% block content %}
 
 <style type="text/css">
-
     .divider:after,
     .divider:before {
         content: "";
@@ -97,7 +96,6 @@
         background-color: #23272b;
     }
 
-    .search-button,
     .filter-button {
         background-color: #343a40;
         color: white;
@@ -154,7 +152,7 @@
 
     .view-cart-button:hover {
         background-color: #23272b;
-
+    }
     /* Style pour la pagination */
     .pagination {
         display: flex;
@@ -193,7 +191,6 @@
         color: #aaa;
         cursor: default;
     }
-    
 </style>
 
 <div class="vh-100">
@@ -202,42 +199,20 @@
     <div class="search-bar">
         <input type="text" class="search-input" placeholder="Rechercher un produit...">
         <button class="search-button">🔍</button>
-        <select class="filter-select">
-            <option value="">Filtrer par</option>
-            <option value="promo">Promotions</option>
-            <option value="prix">Prix</option>
-
-    <!-- Barre de recherche et boutons de filtre -->
-    <div class="search-bar">
-        <input type="text" class="search-input" placeholder="Rechercher un produit...">
-        <button class="search-button">🔍</button>
-
         <select class="filter-select" onchange="window.location.href=this.value;">
             <option value="?filter=" {% if not promo_filter and not price_filter %}selected{% endif %}>Tous</option>
             <option value="?filter=promo" {% if promo_filter %}selected{% endif %}>Promotions</option>
             <option value="?filter=prix" {% if price_filter %}selected{% endif %}>Prix</option>
-
         </select>
     </div>
 
     <!-- Affichage des produits -->
     <div class="product-container">
-
-        {% for product in products %}
-        <div class="product-card">
-            <img src="{{ product.image_url }}" alt="{{ product.name }}" class="product-image">
-            <div class="product-title">{{ product.name }}</div>
-            <div class="product-price">€{{ product.price }}</div>
-            <a href="javascript:void(0);" onclick="addToCart({{ product.id }})" class="buy-button">Acheter</a>
-        </div>
-        {% empty %}
-        <p>Aucun produit disponible pour le moment.</p>
-        {% endfor %}
         {% for item in page_obj %}
             <div class="product-card">
                 <img src="https://www.cdiscount.com/pdt2/4/5/4/1/700x700/mp03089454/rw/casual-chaussure-homme-basket-homme-respirant-d.jpg" alt="{{ item.name }}" class="product-image">
                 <div class="product-price">€{{ item.price }}</div>
-                <a href="javascript:void(0);" onclick="addToCart({{ product.id }})" class="buy-button">Acheter</a>
+                <a href="javascript:void(0);" onclick="addToCart({{ item.getId}})" class="buy-button">Acheter</a>
             </div>
         {% empty %}
             <p>Aucun produit trouvé.</p>
@@ -261,7 +236,6 @@
                 <a href="?page={{ page_obj.paginator.num_pages }}{% if is_promotion_filter %}&filter=promo{% endif %}">dernière &raquo;</a>
             {% endif %}
         </span>
-
     </div>
 </div>
 

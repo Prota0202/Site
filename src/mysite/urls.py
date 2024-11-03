@@ -34,7 +34,8 @@ from account.views import (
     add_to_cart,      
     cart_view,
     confirm_checkout,    
-    order_history_view,    
+    order_history_view,  
+    users_view,  
 )
 
 urlpatterns = [
@@ -53,6 +54,7 @@ urlpatterns = [
     path('checkout/confirm/', confirm_checkout, name='confirm_checkout'),
     path('account/orders/', order_history_view, name='order_history'),
     path("mongo/", include("mongo.urls")),
+    path('users/', users_view, name='users'),
 
 
 ]
