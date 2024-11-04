@@ -1,78 +1,102 @@
 {% extends "base.html" %}
-
 {% block content %}
 
-<style type="text/css">
-    .divider:after,
-    .divider:before {
-        content: "";
-        flex: 1;
-        height: 1px;
-        background: #eee;
+<title>Fiche Utilisateur</title>
+<style>
+    /* Configuration du conteneur pour occuper toute la fenêtre et centrer la fiche */
+    html, body {
+        height: 100%;
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
-
-    /* Adjust image to fit within its container without overlapping */
-    .login-image {
-        width: 100%;
-        max-width: 400px;
+    
+    /* Style de la fiche utilisateur avec décalage */
+    .user-card {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        width: 300px;
+        text-align: center;
+        margin-top: 200px; /* Décalage vers le bas */
+        margin-left: 320px; /* Décalage vers la droite */
     }
-
-    /* Container styles to ensure proper layout */
-    .vh-100 {
-        margin-top: 100px;
+    
+    .user-card h2 {
+        margin-top: 0;
+    }
+    
+    .info {
+        margin: 10px 0;
+    }
+    
+    .info label {
+        font-weight: bold;
+    }
+    
+    .info input {
+        border: none;
+        background: none;
+        outline: none;
+        color: #333;
+        font-size: 16px;
+        text-align: center;
+    }
+    
+    .password {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .toggle-btn {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 5px 10px;
+        margin-left: 5px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    
+    .toggle-btn:hover {
+        background-color: #0056b3;
     }
 </style>
 
-<section class="vh-100">
-    <div class="container py-5 h-100">
-        <div class="row d-flex align-items-center justify-content-center h-100">
-            <div class="col-md-12 text-center mb-4">
-                <h3>Account</h3>
-            </div>
-            <div class="col-md-6 d-flex justify-content-center">
-                <img src="https://atlas-content-cdn.pixelsquid.com/stock-images/icon-user-profile-update-computer-XlEaaD8-600.jpg"
-                     class="img-fluid login-image" alt="Phone image">
-            </div>
-            <div class="col-md-5 col-lg-5 col-xl-4">
-                <form class ="form-signin" method="post">{% csrf_token %}
-                    <!-- Email input -->
-                    <div data-mdb-input-init class="form-outline mb-4">
-                        <label class="form-label" for="form1Example13">Email address</label>
-                        <input type="email" name="email" id="form1Example13" class="form-control form-control-lg" value={{account_form.initial.email}} />
-                    </div>
-
-                    <!-- Password input -->
-                    <div data-mdb-input-init class="form-outline mb-4">
-                        <label class="form-label" for="form1Example34">Username</label>
-                        <input type="text" name="username" id="form1Example34" class="form-control form-control-lg" value={{account_form.initial.username}} />
-                    </div>
-
-                {% for field in account_form %}
-                <p>
-                    {% for error in field.errors %}
-                        <p style="color: red;">{{ error }}</p>
-                    {% endfor %}
-                </p>
-                {% endfor %}
-        
-                {% if account_form.non_field_errors %}
-                    <div style="color: red;">
-                        <p>{{ account_form.non_field_errors }}</p>
-                    </div>
-                {% endif %}
-
-                {% if success_message %}
-                    <div style="color: green; text-align: center;">{{ success_message }}</p>
-                    </div>
-                {% endif %}
-
-                    <!-- Submit button -->
-                    <button type="submit" class="btn btn-primary btn-lg btn-block">Save changes</button>
-                </form>
-            </div>
-        </div>
+<div class="user-card">
+    <h2>Fiche Utilisateur</h2>
+    <div class="info">
+        <label>Email:</label>
+        <input type="text" value={{ email }} readonly>
     </div>
-</section>
+    <div class="info">
+        <label>Nom d'utilisateur:</label>
+        <input type="text" value={{ username }} readonly>
+    </div>
+    <div class="info password">
+        <label>Mot de passe:</label>
+        <input type="password" id="password" value={{ password }} readonly>
+        <button class="toggle-btn" onclick="togglePassword()">Afficher</button>
+    </div>
+</div>
 
+<script>
+    function togglePassword() {
+        const passwordField = document.getElementById("password");
+        const btn = document.querySelector(".toggle-btn");
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+            btn.textContent = "Masquer";
+        } else {
+            passwordField.type = "password";
+            btn.textContent = "Afficher";
+        }
+    }
+</script>
 
 {% endblock content %}

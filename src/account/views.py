@@ -159,6 +159,9 @@ def login_view(request):
             request.session['is_connected'] = True
             request.session['isAdmin']= False
             isAdmin = request.session['isAdmin']
+            request.session['username'] = user["username"]
+            request.session['password'] = user["password"]
+            request.session['email'] = user['email']
             if(user["isAdmin"] == True):
                 request.session['isAdmin'] = True
                 isAdmin = request.session['isAdmin']
@@ -175,28 +178,13 @@ def account_view(request):
     if not is_connected:
         return redirect('login')
 
-    context = {}
-
-    if request.POST:
-        form = AccountUpdateForm(request.POST, instance=request.user)
-        if form.is_valid():
-            form.initial = {
-                "email": request.POST["email"],
-                "username": request.POST["username"],
-            }
-            form.save()
-            context['success_message'] = "Updated"
-    else:
-        form = AccountUpdateForm(
-            initial={
-                'username': request.user.username,
-                'email': request.user.email,
-            }
-        )
 
     context = {
-        'account_form':  form,
-        'is_connected': request.session.get('is_connected', False)
+        'is_connected': request.session.get('is_connected', False),
+        'isAdmin' : request.session.get('isAdmin', False),
+        'username': request.session.get('username', False),
+        'password': request.session.get('password', False),
+        'email': request.session.get('email', False),
 
     }
 
