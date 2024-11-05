@@ -196,7 +196,7 @@
 </style>
 
 <div class="vh-100">
-    <h1 class="text-center">Boutique en ligne</h1>
+    <h1 class="text-center">Online shop</h1>
 
     <div class="search-bar">
         <select class="filter-select" onchange="window.location.href=this.value;">
@@ -217,12 +217,12 @@
                 <form action="{% url 'add_to_cart' item.name %}" method="POST">
                     {% csrf_token %}
                     <button type="submit" class="buy-button" name="buy-button-{{ forloop.counter }}">
-                        Acheter
+                        Buy
                     </button>
                 </form>
             </div>
         {% empty %}
-            <p>Aucun produit trouvé.</p>
+            <p>No product found.</p>
         {% endfor %}
     </div>
     {% endcache %}
@@ -230,17 +230,17 @@
     <div class="pagination">
         <span class="step-links">
             {% if page_obj.has_previous %}
-                <a href="?page=1{% if is_promotion_filter %}&filter=promo{% endif %}">&laquo; première</a>
-                <a href="?page={{ page_obj.previous_page_number }}{% if is_promotion_filter %}&filter=promo{% endif %}">précédente</a>
+                <a href="?page=1{% if is_promotion_filter %}&filter=promo{% endif %}">&laquo; First</a>
+                <a href="?page={{ page_obj.previous_page_number }}{% if is_promotion_filter %}&filter=promo{% endif %}">Before</a>
             {% endif %}
 
             <span class="current">
-                Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}.
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
             </span>
 
             {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}{% if is_promotion_filter %}&filter=promo{% endif %}">suivante</a>
-                <a href="?page={{ page_obj.paginator.num_pages }}{% if is_promotion_filter %}&filter=promo{% endif %}">dernière &raquo;</a>
+                <a href="?page={{ page_obj.next_page_number }}{% if is_promotion_filter %}&filter=promo{% endif %}">Next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}{% if is_promotion_filter %}&filter=promo{% endif %}">Last &raquo;</a>
             {% endif %}
         </span>
     </div>
@@ -248,11 +248,11 @@
 
 <div id="cart-preview">
     <span class="close-btn" onclick="document.getElementById('cart-preview').style.display = 'none';">X</span>
-    <h3>Mon panier</h3>
+    <h3>My cart</h3>
     <div id="cart-items"></div>
     <hr>
     <p><strong>Total: €<span id="cart-total"></span></strong></p>
-    <a href="{% url 'cart_view' %}" class="view-cart-button">Voir le panier</a>
+    <a href="{% url 'cart_view' %}" class="view-cart-button">Show the cart</a>
 </div>
 
 <script>

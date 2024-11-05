@@ -123,15 +123,15 @@
 </style>
 
 <div class="cart-container">
-    <h2 class="cart-header">Votre Panier</h2>
+    <h2 class="cart-header">Your cart</h2>
     <div class="cart-items">
         {% for item in cart_items %}
         <div class="cart-item">
             <img src="{{ item.product.image_url }}" alt="{{ item.product.name }}">
             <div class="item-details">
                 <h4>{{ item.product.name }}</h4>
-                <p>Couleur: {{ item.product.color }} <br> Taille: {{ item.product.size }}</p>
-                <p><strong>Prix:</strong> €{{ item.product.price }}</p>
+                <p>Color: {{ item.product.color }} <br> Size: {{ item.product.size }}</p>
+                <p><strong>Price:</strong> €{{ item.product.price }}</p>
             </div>
             <div class="item-actions">
                 <select class="quantity-select" onchange="updateQuantity({{ item.id }}, this.value)">
@@ -147,14 +147,14 @@
 
     <div class="checkout-section">
         <div class="cart-summary-box">
-            <h3>Résumé de la commande</h3>
+            <h3>Order summary</h3>
             <div class="summary-line">
-                <span>Sous-total</span>
+                <span>Price</span>
                 <span>€{{ total }}</span>
             </div>
             <div class="summary-line">
-                <span>Livraison</span>
-                <span>Gratuit</span>
+                <span>Delivery</span>
+                <span>Free</span>
             </div>
             <hr>
             <div class="summary-line total-price">
@@ -162,7 +162,7 @@
                 <span>€{{ total }}</span>
             </div>
         </div>
-        <a href="{% url 'checkout' %}" class="checkout-button">Passer à la caisse</a>
+        <a href="{% url 'checkout' %}" class="checkout-button">Checkout</a>
     </div>
 </div>
 

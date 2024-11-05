@@ -3,7 +3,7 @@
 {% block content %}
 
 <style type="text/css">
-    /* Vos styles CSS existants */
+   
     body {
         font-family: Arial, sans-serif;
         background-color: #f4f4f9;
@@ -29,15 +29,15 @@
     .search-bar {
         margin-bottom: 20px;
         display: flex;
-        justify-content: center; /* Centre le contenu horizontalement */
-        gap: 10px; /* Espacement entre les éléments */
+        justify-content: center; 
+        gap: 10px; 
     }
 
     .search-input {
         padding: 10px;
         border: 1px solid #ddd;
         border-radius: 4px;
-        width: 200px; /* Largeur fixe pour l'input */
+        width: 200px; 
     }
 
     .search-button {
@@ -69,25 +69,25 @@
     }
 
     .order-table th {
-        background-color: #34495e; /* Bleu foncé */
+        background-color: #34495e; 
         color: #ffffff;
     }
 
     .order-table tr:nth-child(even) {
-        background-color: #f2f2f2; /* Gris clair pour les lignes paires */
+        background-color: #f2f2f2;
     }
 
     .order-table tr:nth-child(odd) {
-        background-color: #e6e6e6; /* Gris un peu plus foncé pour les lignes impaires */
+        background-color: #e6e6e6; 
     }
 
     .order-table tr:hover {
-        background-color: #d3d3d3; /* Gris plus foncé pour le survol */
+        background-color: #d3d3d3; 
         color: #34495e;
     }
 
     .order-table td {
-        color: #34495e; /* Bleu foncé */
+        color: #34495e; 
     }
 
     .pagination {
@@ -130,7 +130,7 @@
                     <th>Name</th>
                     <th>Price</th>
                     <th>Promotion</th>
-                    <th>Change</th> <!-- Nouvelle colonne pour le bouton -->
+                    <th>Change</th> 
                 </tr>
             </thead>
             <tbody>
@@ -140,7 +140,7 @@
                     <td>{{ item.price }}</td>
                     <td>{{ item.promotion }}</td>
                     <td>
-                        <form action="{% url 'changePromo' item.name item.promotion %}" method="post"> <!-- Remplacez 'some_new_data' par la valeur appropriée -->
+                        <form action="{% url 'changePromo' item.name item.promotion %}" method="post"> 
                             {% csrf_token %}
                             <button type="submit">Change</button>
                         </form>
@@ -153,22 +153,22 @@
         <div class="pagination">
             <span class="step-links">
                 {% if page_obj.has_previous %}
-                    <a href="?page=1&search={{ search_query|urlencode }}&filter={{ filter_type|urlencode }}">&laquo; Première</a>
-                    <a href="?page={{ page_obj.previous_page_number }}&search={{ search_query|urlencode }}&filter={{ filter_type|urlencode }}">Précédent</a>
+                    <a href="?page=1&search={{ search_query|urlencode }}&filter={{ filter_type|urlencode }}">&laquo; First</a>
+                    <a href="?page={{ page_obj.previous_page_number }}&search={{ search_query|urlencode }}&filter={{ filter_type|urlencode }}">Before</a>
                 {% endif %}
 
                 <span class="current">
-                    Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}.
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
                 </span>
 
                 {% if page_obj.has_next %}
-                    <a href="?page={{ page_obj.next_page_number }}&search={{ search_query|urlencode }}&filter={{ filter_type|urlencode }}">Suivant</a>
-                    <a href="?page={{ page_obj.paginator.num_pages }}&search={{ search_query|urlencode }}&filter={{ filter_type|urlencode }}">Dernière &raquo;</a>
+                    <a href="?page={{ page_obj.next_page_number }}&search={{ search_query|urlencode }}&filter={{ filter_type|urlencode }}">Next</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}&search={{ search_query|urlencode }}&filter={{ filter_type|urlencode }}">Last &raquo;</a>
                 {% endif %}
             </span>
         </div>
     {% else %}
-        <p>Aucun article disponible.</p>
+        <p>No product found.</p>
     {% endif %}
 </div>
 

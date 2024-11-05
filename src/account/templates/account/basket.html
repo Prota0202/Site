@@ -21,7 +21,7 @@
     h1 {
         color: #2c3e50;
         margin-bottom: 20px;
-        padding-top: 20px; /* Espacement ajusté */
+        padding-top: 20px; 
     }
 
     .basket-table {
@@ -38,32 +38,32 @@
     }
 
     .basket-table th {
-        background-color: #34495e; /* Couleur d'arrière-plan du tableau */
+        background-color: #34495e;
         color: #ffffff;
     }
 
     .basket-table tr:nth-child(even) {
-        background-color: #f2f2f2; /* Gris clair pour les lignes paires */
+        background-color: #f2f2f2; 
     }
 
     .basket-table tr:nth-child(odd) {
-        background-color: #e6e6e6; /* Gris un peu plus foncé pour les lignes impaires */
+        background-color: #e6e6e6; 
     }
 
     .basket-table tr:hover {
-        background-color: #d3d3d3; /* Couleur au survol */
-        color: #34495e; /* Couleur du texte au survol */
+        background-color: #d3d3d3; 
+        color: #34495e; 
     }
 
     .basket-table td {
-        color: #34495e; /* Couleur du texte */
+        color: #34495e; 
     }
 
     button, a.button {
         display: inline-block;
         padding: 10px 20px;
         color: white;
-        background-color: #2c3e50; /* Couleur des boutons */
+        background-color: #2c3e50; 
         border: none;
         border-radius: 4px;
         text-decoration: none;
@@ -74,7 +74,7 @@
     }
 
     button:hover, a.button:hover {
-        background-color: #34495e; /* Couleur de survol des boutons */
+        background-color: #34495e; 
     }
 
     .total {
@@ -85,21 +85,21 @@
 </style>
 
 <div class="container">
-    <h1>Votre Panier</h1>
+    <h1>Your cart</h1>
 
     {% if is_connected %}
-        <p>Bienvenue, voici votre panier</p>
+        <p>Welcome, here is your cart</p>
     {% else %}
-        <p>Veuillez vous connecter pour sauvegarder votre panier.</p>
+        <p>Please login to checkout.</p>
     {% endif %}
 
     {% if basket %}
         <table class="basket-table">
             <thead>
                 <tr>
-                    <th>Produit</th>
-                    <th>Prix</th>
-                    <th>Quantité</th>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -112,13 +112,13 @@
                         <td>
                             <form action="{% url 'delete_from_cart' item.name %}" method="POST" style="display:inline;">
                                 {% csrf_token %}
-                                <button type="submit">Retirer</button>
+                                <button type="submit">Remove</button>
                             </form>
                         </td>
                     </tr>
                 {% empty %}
                 <tr>
-                    <td colspan="4">Votre panier est vide.</td>
+                    <td colspan="4">Your cart is empty.</td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -128,12 +128,12 @@
 
         <form action="{% url 'delete_all_cart' %}" method="post">
             {% csrf_token %}
-            <button type="submit">Vider le panier</button>
+            <button type="submit">Empty the cart</button>
         </form>
 
-        <a href="{% url 'checkout' %}" class="button">Passer à la caisse</a>
+        <a href="{% url 'checkout' %}" class="button">Checkout</a>
     {% else %}
-        <p>Votre panier est vide.</p>
+        <p>Your cart is empty.</p>
     {% endif %}
 </div>
 

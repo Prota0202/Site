@@ -110,9 +110,9 @@ class User(MongoModel):
     
     @classmethod
     def get_id(cls, username):
-        query = {"username": username}  # Requête pour trouver l'utilisateur par nom d'utilisateur
-        user = cls.find(query)  # Rechercher l'utilisateur dans la collection
-        return user[0]["_id"] if user else None  # Retourne l'_id ou None si l'utilisateur n'existe pas
+        query = {"username": username}  
+        user = cls.find(query) 
+        return user[0]["_id"] if user else None  
     
 
     @classmethod
@@ -209,9 +209,9 @@ class Item(MongoModel):
     
     @classmethod
     def get_id(cls, name):
-        query = {"name": name}  # Requête pour trouver l'utilisateur par nom d'utilisateur
-        item = cls.find(query)  # Rechercher l'utilisateur dans la collection
-        return item[0]["_id"] if item else None  # Retourne l'_id ou None si l'utilisateur n'existe pas
+        query = {"name": name}  
+        item = cls.find(query)  
+        return item[0]["_id"] if item else None 
 
 
 class Order(MongoModel):

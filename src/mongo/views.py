@@ -8,7 +8,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-@csrf_exempt  # Utilise cette ligne si tu testes en dehors des formulaires Django (par ex., Postman)
+@csrf_exempt  
 @require_POST
 def create_user(request):
     try:
@@ -40,7 +40,7 @@ def create_multiple_users(request):
         return JsonResponse({'error': str(e)}, status=500)
 
 
-@csrf_exempt  # Utilise cette ligne si tu testes en dehors des formulaires Django (par ex., Postman)
+@csrf_exempt  
 @require_GET
 def get_user(request, user_id):
     user = User.get_user(user_id)
@@ -49,7 +49,7 @@ def get_user(request, user_id):
     return JsonResponse({'error': 'Utilisateur non trouvé'}, status=404)
 
 
-@csrf_exempt  # Utilise cette ligne si tu testes en dehors des formulaires Django (par ex., Postman)
+@csrf_exempt 
 @require_GET
 def get_users(request):
     user = User.get_users()

@@ -93,11 +93,11 @@
 </style>
 
 <div class="checkout-container">
-    <h2>Passer à la caisse</h2>
+    <h2>Checkout</h2>
 
     <!-- Order Summary Section -->
     <div class="checkout-section">
-        <h3>Récapitulatif de la commande</h3>
+        <h3>Order summary</h3>
         <div class="order-summary">
             {% for item in basket%}
             <div class="order-item">
@@ -105,20 +105,20 @@
                 <p>€{{ item.price }}</p>
             </div>
             {% empty %}
-            <p>Votre panier est vide.</p>
+            <p>Your cart is empty</p>
             {% endfor %}
         </div>
     </div>
 
     <!-- Cost Breakdown Section -->
     <div class="checkout-section">
-        <h3>Détails des coûts</h3>
+        <h3>Details of cost</h3>
         <div class="cost-breakdown">
-            <p>Sous-total : </p>
+            <p>Price : </p>
             <p>{{ total }} €</p>
         </div>
         <div class="cost-breakdown">
-            <p>Frais de livraison :</p>
+            <p>Delivery cost :</p>
             <p>€10</p>
         </div>
         <div class="cost-breakdown">
@@ -128,6 +128,6 @@
     </div>
 
     <!-- Checkout Button -->
-    <a href="{% url 'confirm_checkout' %}" class="checkout-button">Confirmer l'achat</a>
+    <a href="{% url 'confirm_checkout' %}" class="checkout-button">Validate your order</a>
 </div>
 {% endblock %}

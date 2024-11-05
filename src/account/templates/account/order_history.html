@@ -83,22 +83,22 @@
 </style>
 
 <div class="container">
-    <h2>Vos Commandes</h2>
+    <h2>Your Orders</h2>
 
     {% if orders %}
         {% for order in orders %}
             <div class="order-summary">
-                <h3>Commande {{ order.id }} - {{ order.created_at|date:"d/m/Y" }}</h3>
+                <h3>Order {{ order.id }} - {{ order.created_at|date:"d/m/Y" }}</h3>
                 <ul>
                     {% for item in order.items.all %}
-                        <li>{{ item.product.name }} - Quantité : {{ item.quantity }}</li>
+                        <li>{{ item.product.name }} - Quantity : {{ item.quantity }}</li>
                     {% endfor %}
                 </ul>
             </div>
             <hr>
         {% endfor %}
     {% else %}
-        <p>Aucune commande passée.</p>
+        <p>No orders available.</p>
     {% endif %}
 </div>
 {% endblock %}

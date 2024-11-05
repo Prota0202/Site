@@ -106,14 +106,11 @@ def delete_from_cart(request, product_name):
         product_to_remove = Item.get_item(product_id)
 
         if isinstance(basket, list):
-            # Recherchez le premier produit correspondant et supprimez-le
             for product in basket:
-                # Comparer par l'identifiant du produit
                 if product['_id'] == product_to_remove['_id']:
                     basket.remove(product)
-                    break  # Arrêtez-vous après avoir supprimé une instance
+                    break 
 
-            # Mettre à jour le panier dans la session
             request.session['basket'] = basket
 
         basket = request.session.get('basket', False)

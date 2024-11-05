@@ -78,16 +78,16 @@
 </style>
 
 <div class="container">
-    <h1>Liste des utilisateurs</h1>
+    <h1>Liste of users</h1>
 
     <div class="search-bar">
         <form method="get">
             <input type="text" class="search-input" name="search" placeholder="Rechercher un utilisateur..." value="{{ search_query }}">
             <button class="search-button" type="submit">🔍</button>
             <select name="filter" class="filter-select" onchange="this.form.submit();">
-                <option value="" {% if not filter_admin %}selected{% endif %}>Tous</option>
+                <option value="" {% if not filter_admin %}selected{% endif %}>All</option>
                 <option value="isAdmin" {% if filter_admin == 'isAdmin' %}selected{% endif %}>Admin</option>
-                <option value="isNotAdmin" {% if filter_admin == 'isNotAdmin' %}selected{% endif %}>Non Admin</option>
+                <option value="isNotAdmin" {% if filter_admin == 'isNotAdmin' %}selected{% endif %}>Not Admin</option>
             </select>
         </form>
     </div>
@@ -111,7 +111,7 @@
             </tr>
             {% empty %}
             <tr>
-                <td colspan="5">Aucun utilisateur trouvé.</td>
+                <td colspan="5">No user found.</td>
             </tr>
             {% endfor %}
         </tbody>
@@ -120,17 +120,17 @@
     <div class="pagination">
         <span class="step-links">
             {% if page_obj.has_previous %}
-                <a href="?page=1&search={{ search_query|urlencode }}&filter={{ filter_admin|urlencode }}">&laquo; Première</a>
-                <a href="?page={{ page_obj.previous_page_number }}&search={{ search_query|urlencode }}&filter={{ filter_admin|urlencode }}">Précédent</a>
+                <a href="?page=1&search={{ search_query|urlencode }}&filter={{ filter_admin|urlencode }}">&laquo; First</a>
+                <a href="?page={{ page_obj.previous_page_number }}&search={{ search_query|urlencode }}&filter={{ filter_admin|urlencode }}">Before</a>
             {% endif %}
 
             <span class="current">
-                Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}.
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
             </span>
 
             {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}&search={{ search_query|urlencode }}&filter={{ filter_admin|urlencode }}">Suivant</a>
-                <a href="?page={{ page_obj.paginator.num_pages }}&search={{ search_query|urlencode }}&filter={{ filter_admin|urlencode }}">Dernière &raquo;</a>
+                <a href="?page={{ page_obj.next_page_number }}&search={{ search_query|urlencode }}&filter={{ filter_admin|urlencode }}">Next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}&search={{ search_query|urlencode }}&filter={{ filter_admin|urlencode }}">Last &raquo;</a>
             {% endif %}
         </span>
     </div>
