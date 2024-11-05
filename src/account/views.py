@@ -13,6 +13,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from .forms import EmailAuthenticationForm 
 from datetime import datetime
 from django.views.decorators.cache import cache_page
+from django.core.cache import cache
 
 
 is_connected = False
@@ -234,16 +235,26 @@ def forgotPswd_view(request):
 def shop_view(request):
     products = Item.get_items()
     
+    
     is_promotion_filter = request.GET.get('filter') == 'promo'
     price_filter = request.GET.get('filter') == 'prix'
 
-    if is_promotion_filter:
-        items = Item.find({'promotion': True})
-    else:
-        items = Item.get_items()
-    
-    if price_filter:
-        items = sorted(items, key=lambda x: x['price']) 
+    cache_key = f"shop_view_{'promo' if is_promotion_filter else 'all'}_{'prix' if price_filter else 'none'}"
+
+    items = cache.get(cache_key)
+
+    if items is None:
+        if is_promotion_filter:
+            items = Item.find({'promotion': True})
+        else:
+            items = Item.get_items()
+
+        if price_filter:
+            items = sorted(items, key=lambda x: x['price'])
+
+        
+        cache.set(cache_key, items, 60 * 15) #15min
+
 
     paginator = Paginator(items, 20) 
     page_number = request.GET.get('page')
