@@ -126,6 +126,12 @@ class User(MongoModel):
 
 class Item(MongoModel):
     collection_name = 'items'
+    
+
+    @property
+    def item_id(self):
+        return self._id
+    
 
     @classmethod
     def create_item(cls, name, price, promotion=False):
@@ -137,12 +143,12 @@ class Item(MongoModel):
         return cls.insert(data)
 
     @classmethod
-    def create_multiple_items(cls, count=100):
+    def create_multiple_items(cls, count=100000):
         items = []
         for i in range(1, count + 1):
             name = f"item{i}"
-            price = i * 10  # Example price calculation
-            promotion = (i % 2 == 0)  # Alternate promotion for every other item
+            price = random.randint(15, 550)
+            promotion = (i % 2 == 0) 
             items.append({"name": name, "price": price, "promotion": promotion})
 
         return cls.insert_many(items)
@@ -156,35 +162,68 @@ class Item(MongoModel):
     @classmethod
     def get_items(cls):
         return cls.find()
+    
+
+    @classmethod
+    def get_item_by_name(cls, name):
+        name = name.strip()
+        query = {"name": name}
+        items = cls.find(query)
+        print(f"Query: {query}, items Found: {items}")
+        return items[0] if items else None
 
     @classmethod
     def update_item(cls, item_id, new_data):
         query = {"_id": ObjectId(item_id)}
         return cls.update(query, new_data)
+    
+    @classmethod
+    def update_item_promo(cls, item_name, new_data):
+        print(new_data)
+        if(new_data == "False"):
+            new_data = True
+        else:
+            new_data = False
+
+
+        print(new_data)
+        item = cls.get_item_by_name(item_name)
+        if item:  
+            item_id = item["_id"]
+            query = {"_id": ObjectId(item_id)} 
+            new_data = {"promotion": new_data}
+            cls.update(query, new_data) 
+        return None 
 
     @classmethod
     def delete_item(cls, item_id):
         query = {"_id": ObjectId(item_id)}
         return cls.delete(query)
     
-
+    @classmethod
+    def delete_all_item(cls):
+        collection = cls.get_collection()
+        result = collection.delete_many({})
+        return result.deleted_count
+    
+    
     @classmethod
     def get_id(cls, name):
         query = {"name": name}  # Requête pour trouver l'utilisateur par nom d'utilisateur
-        user = cls.find(query)  # Rechercher l'utilisateur dans la collection
-        return user[0]["_id"] if user else None  # Retourne l'_id ou None si l'utilisateur n'existe pas
+        item = cls.find(query)  # Rechercher l'utilisateur dans la collection
+        return item[0]["_id"] if item else None  # Retourne l'_id ou None si l'utilisateur n'existe pas
 
 
 class Order(MongoModel):
     collection_name = 'orders'
 
     @classmethod
-    def create_order(cls, orderName, username, itemsids, itemNames):
+    def create_order(cls, orderDate, username, itemsids, price):
         data = {
-            "orderName": orderName,
+            "orderDate": orderDate,
             "username": username,
             "itemsids": itemsids,
-            "itemNames": itemNames
+            "price": price
         }
         return cls.insert(data)
 
@@ -192,11 +231,11 @@ class Order(MongoModel):
     def create_multiple_orders(cls, count=100):
         items = []
         for i in range(1, count + 1):
-            orderName = f"order{i}"
+            orderDate = f"order{i}"
             username = f"admin"
             itemsids = " "
-            itemNames = " " 
-            items.append({"orderName": orderName, "username": username, "itemsids": itemsids, "itemNames": itemNames})
+            price = " " 
+            items.append({"orderName": orderDate, "username": username, "itemsids": itemsids, "price": price})
 
         return cls.insert_many(items)
 
@@ -205,6 +244,13 @@ class Order(MongoModel):
         query = {"_id": ObjectId(order_id)}
         orders = cls.find(query)
         return orders[0] if orders else None
+    
+
+    @classmethod
+    def get_order(cls, username):
+        query = {"username": username} 
+        orders = cls.find(query)
+        return orders if orders else None
 
     @classmethod
     def get_orders(cls):
@@ -226,3 +272,9 @@ class Order(MongoModel):
         query = {"name": name}
         user = cls.find(query)
         return user[0]["_id"] if user else None
+    
+    @classmethod
+    def delete_all_orders(cls):
+        collection = cls.get_collection()
+        result = collection.delete_many({})
+        return result.deleted_count

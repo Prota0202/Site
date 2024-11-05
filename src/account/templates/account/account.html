@@ -20,7 +20,7 @@
         padding: 20px;
         border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        width: 300px;
+        width: 400px;
         text-align: center;
         margin-top: 200px; /* Décalage vers le bas */
         margin-left: 320px; /* Décalage vers la droite */
@@ -69,19 +69,19 @@
 </style>
 
 <div class="user-card">
-    <h2>Fiche Utilisateur</h2>
+    <h2>My Profil</h2>
     <div class="info">
         <label>Email:</label>
         <input type="text" value={{ email }} readonly>
     </div>
     <div class="info">
-        <label>Nom d'utilisateur:</label>
+        <label>Username:</label>
         <input type="text" value={{ username }} readonly>
     </div>
     <div class="info password">
-        <label>Mot de passe:</label>
+        <label>Password:</label>
         <input type="password" id="password" value={{ password }} readonly>
-        <button class="toggle-btn" onclick="togglePassword()">Afficher</button>
+        <button class="toggle-btn" onclick="togglePassword()">Display</button>
     </div>
 </div>
 

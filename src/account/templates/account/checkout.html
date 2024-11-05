@@ -99,10 +99,10 @@
     <div class="checkout-section">
         <h3>Récapitulatif de la commande</h3>
         <div class="order-summary">
-            {% for item in cart_items %}
+            {% for item in basket%}
             <div class="order-item">
-                <p>{{ item.product.name }} x{{ item.quantity }}</p>
-                <p>€{{ item.total_price }}</p>
+                <p>{{ item.name }} x{{ 1 }}</p>
+                <p>€{{ item.price }}</p>
             </div>
             {% empty %}
             <p>Votre panier est vide.</p>
@@ -114,16 +114,16 @@
     <div class="checkout-section">
         <h3>Détails des coûts</h3>
         <div class="cost-breakdown">
-            <p>Sous-total :</p>
-            <p>€{{ subtotal }}</p>
+            <p>Sous-total : </p>
+            <p>{{ total }} €</p>
         </div>
         <div class="cost-breakdown">
             <p>Frais de livraison :</p>
-            <p>€{{ shipping_cost }}</p>
+            <p>€10</p>
         </div>
         <div class="cost-breakdown">
-            <p class="total-price">Total :</p>
-            <p class="total-price">€{{ total2 }}</p>
+            <p class="total-price">Total : </p>
+            <p class="total-price">{{ total2}} €</p>
         </div>
     </div>
 

@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style type="text/css">
+    /* Vos styles CSS existants */
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f9;
+        color: #333;
+        margin: 0;
+        padding: 0;
+        padding-top: 60px; 
+    }
+
+    .container {
+        width: 80%;
+        margin: 0 auto;
+        padding: 20px;
+        text-align: center;
+    }
+
+    h2 {
+        color: #2c3e50;
+        margin-bottom: 20px;
+        padding-top: 60px;
+    }
+
+    .search-bar {
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: center; /* Centre le contenu horizontalement */
+        gap: 10px; /* Espacement entre les éléments */
+    }
+
+    .search-input {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        width: 200px; /* Largeur fixe pour l'input */
+    }
+
+    .search-button {
+        padding: 10px 15px;
+        border: 1px solid #34495e;
+        background-color: #34495e;
+        color: white;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .filter-select {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+
+    .order-table {
+        width: 100%;
+        border-collapse: collapse;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+
+    .order-table th, .order-table td {
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        text-align: center;
+    }
+
+    .order-table th {
+        background-color: #34495e; /* Bleu foncé */
+        color: #ffffff;
+    }
+
+    .order-table tr:nth-child(even) {
+        background-color: #f2f2f2; /* Gris clair pour les lignes paires */
+    }
+
+    .order-table tr:nth-child(odd) {
+        background-color: #e6e6e6; /* Gris un peu plus foncé pour les lignes impaires */
+    }
+
+    .order-table tr:hover {
+        background-color: #d3d3d3; /* Gris plus foncé pour le survol */
+        color: #34495e;
+    }
+
+    .order-table td {
+        color: #34495e; /* Bleu foncé */
+    }
+
+    .pagination {
+        margin: 20px 0;
+    }
+
+    .pagination a {
+        margin: 0 5px;
+        padding: 10px 15px;
+        border: 1px solid #34495e;
+        text-decoration: none;
+        color: #34495e;
+    }
+
+    .pagination a.active {
+        background-color: #34495e;
+        color: white;
+    }
+</style>
+
+<div class="container">
+    <h2>List of items</h2>
+
+    <div class="search-bar">
+        <form method="get">
+            <input type="text" class="search-input" name="search" placeholder="Search of an item" value="{{ search_query }}">
+            <button class="search-button" type="submit">🔍</button>
+            <select name="filter" class="filter-select" onchange="this.form.submit();">
+                <option value="" {% if not filter_type %}selected{% endif %}>All</option>
+                <option value="isPromo" {% if filter_type == 'isPromo' %}selected{% endif %}>Promo</option>
+                <option value="isNotPromo" {% if filter_type == 'isNotPromo' %}selected{% endif %}>Not Promo</option>
+            </select>
+        </form>
+    </div>
+
+    {% if items %}
+        <table class="order-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Promotion</th>
+                    <th>Change</th> <!-- Nouvelle colonne pour le bouton -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr> 
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.price }}</td>
+                    <td>{{ item.promotion }}</td>
+                    <td>
+                        <form action="{% url 'changePromo' item.name item.promotion %}" method="post"> <!-- Remplacez 'some_new_data' par la valeur appropriée -->
+                            {% csrf_token %}
+                            <button type="submit">Change</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1&search={{ search_query|urlencode }}&filter={{ filter_type|urlencode }}">&laquo; Première</a>
+                    <a href="?page={{ page_obj.previous_page_number }}&search={{ search_query|urlencode }}&filter={{ filter_type|urlencode }}">Précédent</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}.
+                </span>
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}&search={{ search_query|urlencode }}&filter={{ filter_type|urlencode }}">Suivant</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}&search={{ search_query|urlencode }}&filter={{ filter_type|urlencode }}">Dernière &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    {% else %}
+        <p>Aucun article disponible.</p>
+    {% endif %}
+</div>
+
+{% endblock content %}

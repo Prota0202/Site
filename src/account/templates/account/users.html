@@ -58,10 +58,27 @@
     .user-table td {
         color: #34495e; /* Bleu foncé */
     }
+
+    .pagination {
+        margin: 20px 0;
+    }
+
+    .pagination a {
+        margin: 0 5px;
+        padding: 10px 15px;
+        border: 1px solid #34495e;
+        text-decoration: none;
+        color: #34495e;
+    }
+
+    .pagination a.active {
+        background-color: #34495e;
+        color: white;
+    }
 </style>
 
 <div class="container">
-    <h1>Liste des Utilisateurs</h1>
+    <h1>Liste des utilisateurs</h1>
 
     <div class="search-bar">
         <form method="get">
@@ -75,33 +92,48 @@
         </form>
     </div>
     
-
     <table class="user-table">
         <thead>
             <tr>
-                <th>ID</th>
                 <th>Email</th>
-                <th>Nom d'utilisateur</th>
-                <th>Mot de passe</th>
+                <th>Username</th>
+                <th>Password</th>
                 <th>Admin</th>
             </tr>
         </thead>
         <tbody>
             {% for user in users %}
             <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.email}}</td>
+                <td>{{ user.email }}</td>
                 <td>{{ user.username }}</td>
                 <td>{{ user.password }}</td>
                 <td>{{ user.isAdmin }}</td>
             </tr>
             {% empty %}
             <tr>
-                <td colspan="4">Aucun utilisateur trouvé.</td>
+                <td colspan="5">Aucun utilisateur trouvé.</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1&search={{ search_query|urlencode }}&filter={{ filter_admin|urlencode }}">&laquo; Première</a>
+                <a href="?page={{ page_obj.previous_page_number }}&search={{ search_query|urlencode }}&filter={{ filter_admin|urlencode }}">Précédent</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}&search={{ search_query|urlencode }}&filter={{ filter_admin|urlencode }}">Suivant</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}&search={{ search_query|urlencode }}&filter={{ filter_admin|urlencode }}">Dernière &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
 </div>
 
 {% endblock content %}

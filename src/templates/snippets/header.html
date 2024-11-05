@@ -69,8 +69,9 @@
                             {% if is_connected %}
                                 <li><a href="{% url 'home' %}">Home</a></li>
                                 <li><a href="{% url 'account' %}">Account</a></li>
-                                <li><a href="{% url 'home' %}">Commandes</a></li>
+                                <li><a href="{% url 'myOrders' %}">My Orders</a></li>
                                 <li><a href="{% url 'shop' %}">Shop</a></li>
+                                <li><a href="{% url 'basket' %}">Basket</a></li>
                                 <li><a href="{% url 'logout' %}">Logout</a></li>
                             {% else %}
                                 <li><a href="{% url 'home' %}">Home</a></li>
@@ -82,9 +83,9 @@
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="#">Statistics</a></li>
+                                    <li><a href="{% url 'items' %}">Items</a></li>
                                     <li><a href="{% url 'users' %}">Users</a></li>
-                                    <li><a href="#">Orders</a></li>
+                                    <li><a href="{% url 'orders' %}">Orders</a></li>
                                 </ul>
                             </li>
                             {% endif %}

@@ -197,8 +197,6 @@
     <h1 class="text-center">Boutique en ligne</h1>
 
     <div class="search-bar">
-        <input type="text" class="search-input" placeholder="Rechercher un produit...">
-        <button class="search-button">🔍</button>
         <select class="filter-select" onchange="window.location.href=this.value;">
             <option value="?filter=" {% if not promo_filter and not price_filter %}selected{% endif %}>Tous</option>
             <option value="?filter=promo" {% if promo_filter %}selected{% endif %}>Promotions</option>
@@ -206,13 +204,15 @@
         </select>
     </div>
 
-    <!-- Affichage des produits -->
+    
     <div class="product-container">
         {% for item in page_obj %}
             <div class="product-card">
                 <img src="https://www.cdiscount.com/pdt2/4/5/4/1/700x700/mp03089454/rw/casual-chaussure-homme-basket-homme-respirant-d.jpg" alt="{{ item.name }}" class="product-image">
                 <div class="product-price">€{{ item.price }}</div>
-                <a href="javascript:void(0);" onclick="addToCart({{ item.getId}})" class="buy-button">Acheter</a>
+                <form action="{% url 'add_to_cart' item.name %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="buy-button">Acheter</button>
             </div>
         {% empty %}
             <p>Aucun produit trouvé.</p>
@@ -251,7 +251,7 @@
 </div>
 
 <script>
-    function addToCart(productId) {
+    function addToCart(productname) {
         fetch(`/add-to-cart/${productId}/`, {
             method: 'POST',
             headers: {
