@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load cache %}
+
 {% block content %}
 
 <style type="text/css">
@@ -153,7 +155,7 @@
     .view-cart-button:hover {
         background-color: #23272b;
     }
-    /* Style pour la pagination */
+
     .pagination {
         display: flex;
         justify-content: center;
@@ -204,22 +206,27 @@
         </select>
     </div>
 
-    
+    {% cache 900 "product_list" page_obj.number %}
     <div class="product-container">
         {% for item in page_obj %}
             <div class="product-card">
-                <img src="https://www.cdiscount.com/pdt2/4/5/4/1/700x700/mp03089454/rw/casual-chaussure-homme-basket-homme-respirant-d.jpg" alt="{{ item.name }}" class="product-image">
-                <div class="product-price">€{{ item.price }}</div>
+                <img src="https://www.cdiscount.com/pdt2/4/5/4/1/700x700/mp03089454/rw/casual-chaussure-homme-basket-homme-respirant-d.jpg" 
+                     alt="{{ item.name }}" class="product-image" loading="lazy">
+    
+                <div class="product-price" name="price-{{ forloop.counter }}">€{{ item.price }}</div>
                 <form action="{% url 'add_to_cart' item.name %}" method="POST">
                     {% csrf_token %}
-                    <button type="submit" class="buy-button">Acheter</button>
+                    <button type="submit" class="buy-button" name="buy-button-{{ forloop.counter }}">
+                        Acheter
+                    </button>
+                </form>
             </div>
         {% empty %}
             <p>Aucun produit trouvé.</p>
         {% endfor %}
     </div>
+    {% endcache %}
 
-    <!-- Pagination -->
     <div class="pagination">
         <span class="step-links">
             {% if page_obj.has_previous %}
@@ -239,14 +246,12 @@
     </div>
 </div>
 
-<!-- Preview du panier -->
 <div id="cart-preview">
     <span class="close-btn" onclick="document.getElementById('cart-preview').style.display = 'none';">X</span>
     <h3>Mon panier</h3>
     <div id="cart-items"></div>
     <hr>
     <p><strong>Total: €<span id="cart-total"></span></strong></p>
-    <!-- Bouton pour accéder au panier -->
     <a href="{% url 'cart_view' %}" class="view-cart-button">Voir le panier</a>
 </div>
 

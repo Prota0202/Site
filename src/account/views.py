@@ -12,6 +12,8 @@ import random
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import EmailAuthenticationForm 
 from datetime import datetime
+from django.views.decorators.cache import cache_page
+
 
 is_connected = False
 
@@ -58,7 +60,6 @@ def empty_cart(request):
     paginator = Paginator(items, 20) 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number) 
-    print(page_obj)
     
     context = {
         'page_obj': page_obj,
@@ -150,14 +151,11 @@ def delete_all_cart(request):
 
 @require_POST
 def add_to_cart(request, product_name):
-    product_id= Item.get_id(product_name)
     print(product_name)
+    product_id= Item.get_id(product_name)
     product =Item.get_item(product_id)
-    print(product)
     request.session['basket'].append(product)
     request.session.modified = True
-    print("OkE")
-    print(product )
 
 
     products = Product.objects.all()
@@ -232,6 +230,7 @@ def forgotPswd_view(request):
 
     return render(request, 'account/forgotPswd.html')
 
+@cache_page(60 * 15)  # 15 min
 def shop_view(request):
     products = Item.get_items()
     
@@ -243,14 +242,12 @@ def shop_view(request):
     else:
         items = Item.get_items()
     
-
     if price_filter:
         items = sorted(items, key=lambda x: x['price']) 
 
     paginator = Paginator(items, 20) 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number) 
-    print(page_obj)
     
     context = {
         'page_obj': page_obj,
@@ -261,6 +258,7 @@ def shop_view(request):
         'isAdmin' : request.session.get('isAdmin', False)
     }
     return render(request, 'account/shop.html', context)
+
 
 
 def login_view(request):
