@@ -38,6 +38,40 @@ def confirm_checkout(request):
     }
     return render(request, 'account/confirmation.html', context)
 
+
+def empty_cart(request):
+    request.session['basket']= []
+    products = Item.get_items()
+    
+    is_promotion_filter = request.GET.get('filter') == 'promo'
+    price_filter = request.GET.get('filter') == 'prix'
+
+    if is_promotion_filter:
+        items = Item.find({'promotion': True})
+    else:
+        items = Item.get_items()
+    
+
+    if price_filter:
+        items = sorted(items, key=lambda x: x['price']) 
+
+    paginator = Paginator(items, 20) 
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number) 
+    print(page_obj)
+    
+    context = {
+        'page_obj': page_obj,
+        'is_promotion_filter': is_promotion_filter, 
+        'price_filter': price_filter,
+        'products': products,
+        'is_connected': request.session.get('is_connected', False),
+        'isAdmin' : request.session.get('isAdmin', False)
+    }
+    
+
+    return render(request, 'account/shop.html', context)
+
 def checkout_view(request):
    
     cart_items = CartItem.objects.all()

@@ -43,6 +43,7 @@ from account.views import (
     my_orders_view,
     items_view,
     changePromo,
+    empty_cart,
 )
 
 urlpatterns = [
@@ -69,5 +70,6 @@ urlpatterns = [
     path('basket/', basket_view, name='basket'),
     path('myOrders/', my_orders_view, name='myOrders'),
     path('items/', items_view, name='items'),
+    path('empty_cart/', empty_cart, name= 'empty_cart'),
 
 ]
