@@ -214,9 +214,11 @@ def registration_view(request):
 def logout_view(request):
     logout(request)
     if 'is_connected' in request.session:
+        request.session['is_connected']= False
         del request.session['is_connected']
 
     if 'isAdmin' in request.session:
+        request.session['isAdmin'] = False
         del request.session['isAdmin']
 
     return redirect('home')
@@ -233,6 +235,7 @@ def forgotPswd_view(request):
 
 @cache_page(60 * 15)  # 15 min
 def shop_view(request):
+    isAdmin= request.session.get('isAdmin', False)
     products = Item.get_items()
     
     
@@ -266,7 +269,7 @@ def shop_view(request):
         'price_filter': price_filter,
         'products': products,
         'is_connected': request.session.get('is_connected', False),
-        'isAdmin' : request.session.get('isAdmin', False)
+        'isAdmin' : isAdmin,
     }
     return render(request, 'account/shop.html', context)
 

@@ -47,7 +47,6 @@
     <ol class="carousel-indicators">
         <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
         <li data-target="#myCarousel" data-slide-to="1"></li>
-        <li data-target="#myCarousel" data-slide-to="2"></li>
     </ol>
     <div class="carousel-inner" role="listbox">
         <div class="item active">
@@ -56,7 +55,7 @@
                 <div class="carousel-caption">
                     <h1>New users</h1>
                     <p>Are you new here? Please, be like you want to be!</p>
-                    <p><a class="btn btn-lg btn-primary" href="#" role="button">Black Ops 6</a></p>
+                    <p><a class="btn btn-lg btn-primary" href="register" role="button">Register</a></p>
                 </div>
             </div>
         </div>
@@ -64,19 +63,9 @@
             <img class="second-slide" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Second slide">
             <div class="container">
                 <div class="carousel-caption">
-                    <h1>Take a look at the new collection</h1>
-                    <p>Be the best version of yourself</p>
-                    <p><a class="btn btn-lg btn-primary" href="{% url 'shop' %}" role="button">Shop</a></p>
-                </div>
-            </div>
-        </div>
-        <div class="item">
-            <img class="third-slide" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Third slide">
-            <div class="container">
-                <div class="carousel-caption">
-                    <h1>Another example headline.</h1>
-                    <p>No idea for the moment</p>
-                    <p><a class="btn btn-lg btn-primary" href="#" role="button">Browse gallery</a></p>
+                    <h1>Already have an account</h1>
+                    <p></p>
+                    <p><a class="btn btn-lg btn-primary" href="{% url 'login' %}" role="button">Login</a></p>
                 </div>
             </div>
         </div>
